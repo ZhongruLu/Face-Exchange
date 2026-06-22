@@ -1,0 +1,19 @@
+---
+const steps = [
+  '01 ENTER',
+  '02 CAPTURE',
+  '03 PACKAGE',
+  '04 VALUE',
+  '05 COST',
+  '06 RESULT',
+  '07 REFLECT',
+];
+---
+
+<nav class="progress-path" aria-label="Exchange path progress">
+  {steps.map((step, index) => (
+    <span class="progress-step" data-progress-step={index} aria-current={index === 0 ? 'step' : undefined}>
+      {step}
+    </span>
+  ))}
+</nav>

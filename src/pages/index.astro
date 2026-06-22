@@ -1,0 +1,181 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CorridorFrame from '../components/CorridorFrame.astro';
+import ProgressPath from '../components/ProgressPath.astro';
+import SystemStatus from '../components/SystemStatus.astro';
+---
+
+<Layout title="Face Exchange">
+  <main class="experience-shell" data-app>
+    <CorridorFrame />
+    <ProgressPath />
+    <SystemStatus />
+
+    <section class="stage is-active" data-stage="0" aria-labelledby="entrance-title">
+      <p class="terminal-label">SYSTEM GATE / 01</p>
+      <h1 id="entrance-title">FACE EXCHANGE</h1>
+      <p class="stage-command">SUBMIT YOUR FACE TO ENTER</p>
+      <p class="stage-copy">
+        This is not a real scoring tool. This is a speculative system about how faces become measurable,
+        comparable and exchangeable value.
+      </p>
+      <button class="primary-action" type="button" data-next>ENTER SYSTEM</button>
+    </section>
+
+    <section class="stage" data-stage="1" aria-labelledby="capture-title" hidden>
+      <p class="terminal-label">INPUT MATERIAL / 02</p>
+      <h2 id="capture-title">FACE CAPTURE / UPLOAD</h2>
+      <p class="stage-copy">Your face is the entry material.</p>
+      <div class="privacy-panel">
+        <p>Your image stays inside this browser.</p>
+        <p>No image is uploaded to a server.</p>
+        <p>No biometric analysis is performed.</p>
+        <p>No AI face recognition is used.</p>
+        <p>No image is stored permanently.</p>
+      </div>
+
+      <div class="capture-grid">
+        <div class="camera-panel">
+          <video id="camera-video" class="camera-video" playsinline muted hidden></video>
+          <canvas id="capture-canvas" hidden></canvas>
+          <div class="preview-frame" id="empty-preview">
+            <span>LOCAL FACE PREVIEW WAITING</span>
+          </div>
+          <img id="face-preview" class="face-preview" alt="Submitted face preview" hidden />
+        </div>
+
+        <div class="control-stack">
+          <button class="secondary-action" type="button" id="start-camera">USE CAMERA</button>
+          <button class="secondary-action" type="button" id="take-photo" hidden>TAKE STILL IMAGE</button>
+          <label class="upload-label" for="image-upload">UPLOAD IMAGE</label>
+          <input id="image-upload" type="file" accept="image/*" />
+          <p class="microcopy" id="camera-message" aria-live="polite">
+            Camera access is optional. Upload remains available if access is unavailable or denied.
+          </p>
+        </div>
+      </div>
+      <button class="primary-action" type="button" data-next id="capture-next" disabled>
+        CONTINUE TO SYSTEM PACKAGING
+      </button>
+    </section>
+
+    <section class="stage" data-stage="2" aria-labelledby="package-title" hidden>
+      <p class="terminal-label">IDENTITY CONSTRUCTION / 03</p>
+      <h2 id="package-title">SYSTEM PACKAGING</h2>
+      <p class="stage-copy">
+        The system simulates how a face is packaged into a platform-ready identity. No real analysis is performed.
+      </p>
+
+      <div class="package-layout">
+        <div class="scan-card">
+          <img id="package-preview" class="face-preview" alt="Submitted face with simulated scan overlay" hidden />
+          <div class="scan-overlay" aria-hidden="true"></div>
+          <div class="metadata-tags" id="metadata-tags"></div>
+        </div>
+
+        <fieldset class="mode-fieldset">
+          <legend>Choose one packaging mode</legend>
+          <label class="mode-card">
+            <input type="radio" name="package-mode" value="corporate" />
+            <span>Corporate Face</span>
+            <small>Employability value / authority value</small>
+          </label>
+          <label class="mode-card">
+            <input type="radio" name="package-mode" value="creative" />
+            <span>Creative Face</span>
+            <small>Visibility value / cultural value</small>
+          </label>
+          <label class="mode-card">
+            <input type="radio" name="package-mode" value="livestream" />
+            <span>Livestream Face</span>
+            <small>Attention value / engagement value</small>
+          </label>
+          <label class="mode-card">
+            <input type="radio" name="package-mode" value="verified" />
+            <span>Verified Face</span>
+            <small>Legitimacy value / institutional trust</small>
+          </label>
+        </fieldset>
+      </div>
+
+      <ol class="status-lines" aria-live="polite">
+        <li>FACE RECEIVED</li>
+        <li>VISUAL IDENTITY EXTRACTED</li>
+        <li>PROFESSIONAL CODES APPLIED</li>
+        <li>PLATFORM VALUE GENERATED</li>
+      </ol>
+      <button class="primary-action" type="button" data-next id="package-next" disabled>ASSIGN FACE VALUE</button>
+    </section>
+
+    <section class="stage" data-stage="3" aria-labelledby="value-title" hidden>
+      <p class="terminal-label">FICTIONAL MEASUREMENT / 04</p>
+      <h2 id="value-title">VALUE ASSIGNMENT</h2>
+      <p class="stage-copy">
+        These scores are fictional. They question how interfaces make subjective judgement appear measurable.
+      </p>
+      <div class="value-grid" id="value-grid"></div>
+      <button class="primary-action" type="button" data-next>REVEAL HIDDEN COSTS</button>
+    </section>
+
+    <section class="stage stage--critical" data-stage="4" aria-labelledby="cost-title" hidden>
+      <p class="terminal-label">CONCEALED EXCHANGE / 05</p>
+      <h2 id="cost-title">VALUE IS NOT FREE</h2>
+      <fieldset class="cost-fieldset">
+        <legend>Select hidden costs registered by the system</legend>
+        <label><input type="checkbox" value="Facial data submitted" /> Facial data submitted</label>
+        <label><input type="checkbox" value="Source image retained" /> Source image retained</label>
+        <label><input type="checkbox" value="Image ownership unclear" /> Image ownership unclear</label>
+        <label><input type="checkbox" value="Professional identity standardised" /> Professional identity standardised</label>
+        <label><input type="checkbox" value="AI modification not disclosed" /> AI modification not disclosed</label>
+        <label><input type="checkbox" value="Platform controls circulation" /> Platform controls circulation</label>
+        <label><input type="checkbox" value="Face becomes reusable interface material" /> Face becomes reusable interface material</label>
+      </fieldset>
+      <p class="system-line" id="cost-message" aria-live="polite">AWAITING HIDDEN COST SELECTION</p>
+      <button class="primary-action" type="button" data-next>GENERATE EXCHANGE RESULT</button>
+    </section>
+
+    <section class="stage" data-stage="5" aria-labelledby="result-title" hidden>
+      <p class="terminal-label">SYSTEM OUTPUT / 06</p>
+      <h2 id="result-title">EXCHANGE RESULT</h2>
+      <div class="result-grid">
+        <div class="scan-card result-preview-card">
+          <img id="result-preview" class="face-preview" alt="Submitted face in exchange result" hidden />
+          <div class="scan-overlay" aria-hidden="true"></div>
+          <p class="system-line">SYSTEM STATUS: EXCHANGED</p>
+        </div>
+        <div class="result-panel" id="result-panel"></div>
+      </div>
+      <p class="stage-copy">
+        The face was not simply uploaded. It was captured, packaged, valued and exchanged by an interface.
+      </p>
+      <div class="button-row">
+        <button class="secondary-action" type="button" id="start-again">START AGAIN</button>
+        <button class="primary-action" type="button" data-next>CONTINUE TO REFLECTION</button>
+      </div>
+    </section>
+
+    <section class="stage" data-stage="6" aria-labelledby="reflection-title" hidden>
+      <p class="terminal-label">EXIT QUESTION / 07</p>
+      <h2 id="reflection-title">WHO SHOULD CONTROL THE VALUE OF A FACE?</h2>
+      <fieldset class="reflection-fieldset">
+        <legend>Choose one answer</legend>
+        <label><input type="radio" name="reflection" value="the user" /> the user</label>
+        <label><input type="radio" name="reflection" value="the platform" /> the platform</label>
+        <label><input type="radio" name="reflection" value="the employer" /> the employer</label>
+        <label><input type="radio" name="reflection" value="the audience" /> the audience</label>
+        <label><input type="radio" name="reflection" value="the AI system" /> the AI system</label>
+      </fieldset>
+      <div class="reflection-response" id="reflection-response" aria-live="polite" hidden>
+        <p>
+          This project asks how digital interfaces turn facial images into measurable, comparable and exchangeable
+          value, and what forms of transparency, consent and control should exist.
+        </p>
+        <p class="final-message">END OF EXCHANGE PATH</p>
+        <button class="secondary-action" type="button" id="restart-final">START AGAIN</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    import '../scripts/faceExchange.js';
+  </script>
+</Layout>
