@@ -4,7 +4,7 @@ import SystemStatus from '../components/SystemStatus.astro';
 ---
 
 <Layout title="Face Exchange">
-  <main class="exchange-space" data-app data-view="corridor">
+  <main class="exchange-space" data-app data-view="corridor" data-entrance="outside">
     <SystemStatus />
 
     <section class="corridor-hub" data-corridor aria-labelledby="corridor-title">
@@ -52,8 +52,11 @@ import SystemStatus from '../components/SystemStatus.astro';
 
       <div class="corridor-hints" aria-label="Corridor movement hints">
         <p class="station-readout" id="station-readout" aria-live="polite">01 INTRO</p>
-        <p>SCROLL / W / S TO MOVE</p>
-        <p>CLICK NEARBY FACE NODE TO ENTER</p>
+        <p data-entrance-instruction>SCROLL / W TO APPROACH</p>
+        <p data-gate-instruction>CLICK GATE TO ENTER</p>
+        <p data-corridor-instruction>SCROLL / W / S TO MOVE</p>
+        <p data-node-instruction>CLICK NEARBY FACE NODE TO ENTER</p>
+        <button class="entrance-action" type="button" data-enter-entrance>ENTER FACE EXCHANGE</button>
         <details class="accessible-nav">
           <summary>Keyboard navigation</summary>
           <div class="accessible-nav__controls">
@@ -70,17 +73,19 @@ import SystemStatus from '../components/SystemStatus.astro';
         <div class="room-frame">
           <p class="terminal-label">ROOM 01 / INTRO</p>
           <h2 id="enter-title">FACE EXCHANGE</h2>
-          <p class="stage-copy">FACE EXCHANGE is a fictional market where faces become digital value.</p>
-          <p class="stage-copy">This is not a real scoring system. It does not use face recognition or AI analysis.</p>
-          <p class="stage-copy">You will submit a face, classify it, assign fictional value, enter an auction, and see the hidden costs.</p>
+          <p class="stage-copy">Welcome to Face Exchange.</p>
+          <p class="stage-copy">A fictional market where faces become digital products.</p>
+          <p class="stage-copy">Choose a face. Classify it. Value it. Auction it.</p>
+          <p class="stage-copy">This is not real face recognition. This is not a real scoring system. It is a speculative joke about how identity becomes value.</p>
+          <p class="stage-copy stage-copy--question">Who creates the value of a face, and who owns it?</p>
           <div class="blueprint-box blueprint-box--threshold">
-            <span>MOVE THROUGH THE FACE NODES</span>
-            <span>SUBMIT A FACE</span>
-            <span>SEE HOW IT IS CLASSIFIED, VALUED AND AUCTIONED</span>
+            <span>SHOP FOR A FACE</span>
+            <span>TURN IDENTITY INTO PRODUCT</span>
+            <span>WATCH VALUE GET INVENTED</span>
           </div>
           <div class="room-actions">
             <button class="secondary-action" type="button" data-return-corridor>RETURN TO CORRIDOR</button>
-            <button class="primary-action" type="button" data-continue="submitRoom">START EXCHANGE</button>
+            <button class="primary-action" type="button" data-continue="submitRoom">ENTER THE MARKET</button>
           </div>
         </div>
       </section>
@@ -88,8 +93,9 @@ import SystemStatus from '../components/SystemStatus.astro';
       <section class="room-scene room-scene--submit" data-room="submitRoom" aria-labelledby="submit-title" tabindex="-1">
         <div class="room-frame room-frame--wide">
           <p class="terminal-label">ROOM 02 / SUBMIT FACE</p>
-          <h2 id="submit-title">SUBMIT FACE MATERIAL</h2>
-          <p class="stage-copy">Use your camera or upload an image to create a local preview.</p>
+          <h2 id="submit-title">SUBMIT YOUR FACE</h2>
+          <p class="stage-copy">Your face is now market material.</p>
+          <p class="stage-copy">Upload a face or use the camera to create a market entry.</p>
           <div class="capture-grid">
             <div class="camera-panel">
               <video id="camera-video" class="camera-video" playsinline muted hidden></video>
@@ -109,6 +115,7 @@ import SystemStatus from '../components/SystemStatus.astro';
               <label class="upload-label" for="image-upload">UPLOAD IMAGE</label>
               <input id="image-upload" type="file" accept="image/*" />
               <p class="microcopy" id="camera-message" aria-live="polite">Camera access is optional. Upload remains available if access is unavailable or denied.</p>
+              <p class="microcopy microcopy--market">Congratulations. Your face is ready to become a product.</p>
             </div>
           </div>
           <div class="room-actions">
@@ -121,8 +128,8 @@ import SystemStatus from '../components/SystemStatus.astro';
       <section class="room-scene room-scene--classify" data-room="classifyRoom" aria-labelledby="classify-title" tabindex="-1">
         <div class="room-frame room-frame--wide">
           <p class="terminal-label">ROOM 03 / CLASSIFY FACE</p>
-          <h2 id="classify-title">CLASSIFY THE FACE</h2>
-          <p class="stage-copy">Choose a fictional asset category. No real analysis is performed.</p>
+          <h2 id="classify-title">CHOOSE A FACE PRODUCT CATEGORY</h2>
+          <p class="stage-copy">The market does not see a person first. It sees categories, labels and possible uses.</p>
           <div class="package-layout">
             <div class="scan-card">
               <img id="package-preview" class="face-preview" alt="Submitted face with simulated scan overlay" hidden />
@@ -131,19 +138,19 @@ import SystemStatus from '../components/SystemStatus.astro';
             </div>
             <fieldset class="mode-fieldset">
               <legend>Choose one fictional asset category</legend>
-              <label class="mode-card"><input type="radio" name="package-mode" value="corporate" /> <span>Professional Face</span><small>Work-ready value / employment value</small></label>
-              <label class="mode-card"><input type="radio" name="package-mode" value="creative" /> <span>Trustworthy Face</span><small>Confidence value / service value</small></label>
-              <label class="mode-card"><input type="radio" name="package-mode" value="livestream" /> <span>Young Face</span><small>Trend value / growth market value</small></label>
-              <label class="mode-card"><input type="radio" name="package-mode" value="verified" /> <span>Passport Face</span><small>Document value / access value</small></label>
-              <label class="mode-card"><input type="radio" name="package-mode" value="influencer" /> <span>Influencer Face</span><small>Attention value / brand value</small></label>
-              <label class="mode-card"><input type="radio" name="package-mode" value="premium" /> <span>Premium Face</span><small>Status value / resale value</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="corporate" /> <span>Job Interview Face</span><small>For employability, professionalism and corporate trust.</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="verified" /> <span>Passport Face</span><small>For access, verification and official identity.</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="influencer" /> <span>Influencer Face</span><small>For attention, visibility and platform circulation.</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="creative" /> <span>Trustworthy Service Face</span><small>For care, customer support and public trust.</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="premium" /> <span>Luxury Identity Face</span><small>For status, aspiration and premium branding.</small></label>
+              <label class="mode-card"><input type="radio" name="package-mode" value="livestream" /> <span>Algorithm-Friendly Face</span><small>For visibility, trend and machine-readable appeal.</small></label>
             </fieldset>
           </div>
           <ol class="status-lines" aria-live="polite">
             <li>FACE RECEIVED</li>
-            <li>VISUAL IDENTITY EXTRACTED</li>
-            <li>PROFESSIONAL CODES APPLIED</li>
-            <li>PLATFORM VALUE GENERATED</li>
+            <li>PRODUCT CATEGORY OPENED</li>
+            <li>MARKET USE CASE ATTACHED</li>
+            <li>FACE VALUE READY FOR PRICING</li>
           </ol>
           <div class="room-actions">
             <button class="secondary-action" type="button" data-return-corridor>RETURN TO CORRIDOR</button>
@@ -155,8 +162,9 @@ import SystemStatus from '../components/SystemStatus.astro';
       <section class="room-scene room-scene--value" data-room="valueRoom" aria-labelledby="value-title" tabindex="-1">
         <div class="room-frame room-frame--wide">
           <p class="terminal-label">ROOM 04 / VALUE FACE</p>
-          <h2 id="value-title">VALUE THE FACE</h2>
-          <p class="stage-copy">These scores are fictional. They question how interfaces make subjective judgement appear measurable.</p>
+          <h2 id="value-title">FACE VALUE DASHBOARD</h2>
+          <p class="stage-copy">These numbers are fictional. They show how an interface can make subjective judgement look measurable.</p>
+          <p class="system-line value-comment" id="value-comment">FACE VALUE IS BEING PRODUCED</p>
           <div class="value-grid" id="value-grid"></div>
           <div class="room-actions">
             <button class="secondary-action" type="button" data-return-corridor>RETURN TO CORRIDOR</button>
@@ -168,16 +176,29 @@ import SystemStatus from '../components/SystemStatus.astro';
       <section class="room-scene room-scene--auction" data-room="auctionRoom" aria-labelledby="auction-title" tabindex="-1">
         <div class="room-frame room-frame--wide">
           <p class="terminal-label">ROOM 05 / AGENT BIDDING CHAMBER</p>
-          <h2 id="auction-title">AUCTION THE FACE VALUE</h2>
-          <p class="stage-copy">Fictional agents compete for different forms of facial value. The bids are interface theatre, not real market data.</p>
+          <h2 id="auction-title">FACE AUCTION ROOM</h2>
+          <p class="stage-copy">Different agents bid because they want different things from the face.</p>
+          <p class="stage-copy">The face does not have one fixed value. Its value changes depending on who wants to use it.</p>
+          <section class="face-market-gallery" aria-labelledby="gallery-title">
+            <p class="terminal-label" id="gallery-title">SHOPPING FOR A FACE</p>
+            <div class="face-product-grid">
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>118 FVU</span><strong>Job Interview Face</strong><p>Professional trust and employability packaging.</p><button class="secondary-action" type="button">VIEW BID</button></article>
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>142 FVU</span><strong>Passport Face</strong><p>Access, verification and official identity proof.</p><button class="secondary-action" type="button">ADD TO IDENTITY</button></article>
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>207 FVU</span><strong>Influencer Face</strong><p>Visibility, attention and platform circulation.</p><button class="secondary-action" type="button">VIEW BID</button></article>
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>133 FVU</span><strong>Trustworthy Service Face</strong><p>Care, customer support and public confidence.</p><button class="secondary-action" type="button">ADD TO IDENTITY</button></article>
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>260 FVU</span><strong>Luxury Identity Face</strong><p>Status, aspiration and premium branding.</p><button class="secondary-action" type="button">VIEW BID</button></article>
+              <article class="face-product-card"><div class="product-face" aria-hidden="true"></div><span>184 FVU</span><strong>Algorithm-Friendly Face</strong><p>Trend, visibility and machine-readable appeal.</p><button class="secondary-action" type="button">ADD TO IDENTITY</button></article>
+            </div>
+          </section>
           <div class="auction-grid" id="auction-grid">
-            <article class="auction-card" data-agent="employer"><span>FVU AGENT A</span><strong>Employer Agent</strong><p>Bids for employability and authority signals.</p><output id="bid-employer">0</output></article>
-            <article class="auction-card" data-agent="platform"><span>FVU AGENT B</span><strong>Platform Agent</strong><p>Bids for attention and repeat circulation.</p><output id="bid-platform">0</output></article>
-            <article class="auction-card" data-agent="verification"><span>FVU AGENT C</span><strong>Verification Agent</strong><p>Bids for trust, access and identity confidence.</p><output id="bid-verification">0</output></article>
-            <article class="auction-card" data-agent="collector"><span>FVU AGENT D</span><strong>Collector Agent</strong><p>Bids for scarcity and resale potential.</p><output id="bid-collector">0</output></article>
-            <article class="auction-card" data-agent="advertiser"><span>FVU AGENT E</span><strong>Advertiser Agent</strong><p>Bids for attention demand and market reach.</p><output id="bid-advertiser">0</output></article>
+            <article class="auction-card" data-agent="employer"><span>FVU AGENT A</span><strong>Employer Agent</strong><p>Bids for employability, authority and professional trust.</p><small>This face could perform well in a job market.</small><output id="bid-employer">0</output></article>
+            <article class="auction-card" data-agent="platform"><span>FVU AGENT B</span><strong>Platform Agent</strong><p>Bids for attention, visibility and engagement.</p><small>This face could circulate well.</small><output id="bid-platform">0</output></article>
+            <article class="auction-card" data-agent="advertiser"><span>FVU AGENT C</span><strong>Advertiser Agent</strong><p>Bids for trust, lifestyle signal and selling power.</p><small>This face could sell aspiration.</small><output id="bid-advertiser">0</output></article>
+            <article class="auction-card" data-agent="verification"><span>FVU AGENT D</span><strong>Verification Agent</strong><p>Bids for access, compliance and identity control.</p><small>This face could become proof.</small><output id="bid-verification">0</output></article>
+            <article class="auction-card" data-agent="collector"><span>FVU AGENT E</span><strong>Collector Agent</strong><p>Bids for rarity, resale potential and identity asset value.</p><small>This face could become collectible.</small><output id="bid-collector">0</output></article>
           </div>
           <p class="system-line" id="auction-message">BIDS WAITING FOR VALUE INPUT</p>
+          <p class="stage-copy stage-copy--note">The auction is fictional. The logic is familiar. Different systems compete to define the value of a face.</p>
           <div class="room-actions">
             <button class="secondary-action" type="button" data-return-corridor>RETURN TO CORRIDOR</button>
             <button class="primary-action" type="button" data-continue="costRoom">CONTINUE TO NEXT ROOM</button>
@@ -188,16 +209,17 @@ import SystemStatus from '../components/SystemStatus.astro';
       <section class="room-scene room-scene--cost" data-room="costRoom" aria-labelledby="cost-title" tabindex="-1">
         <div class="room-frame room-frame--wide">
           <p class="terminal-label">ROOM 06 / HIDDEN MARKET COST ROOM</p>
-          <h2 id="cost-title">REGISTER HIDDEN COSTS</h2>
+          <h2 id="cost-title">HIDDEN COSTS</h2>
+          <p class="stage-copy">When a face becomes market value, something is lost.</p>
           <fieldset class="cost-fieldset">
             <legend>Select hidden costs registered by the system</legend>
-            <label><input type="checkbox" value="Facial data submitted" /> Facial data submitted</label>
-            <label><input type="checkbox" value="Source image retained" /> Source image retained</label>
-            <label><input type="checkbox" value="Image ownership unclear" /> Image ownership unclear</label>
-            <label><input type="checkbox" value="Professional identity standardised" /> Professional identity standardised</label>
-            <label><input type="checkbox" value="AI modification not disclosed" /> AI modification not disclosed</label>
-            <label><input type="checkbox" value="Platform controls circulation" /> Platform controls circulation</label>
-            <label><input type="checkbox" value="Face becomes reusable interface material" /> Face becomes reusable interface material</label>
+            <label><input type="checkbox" value="Ownership becomes unclear" /> Ownership becomes unclear</label>
+            <label><input type="checkbox" value="The face becomes reusable asset material" /> The face becomes reusable asset material</label>
+            <label><input type="checkbox" value="The person loses control" /> The person loses control</label>
+            <label><input type="checkbox" value="Platform visibility decides value" /> Platform visibility decides value</label>
+            <label><input type="checkbox" value="Personal identity becomes a market category" /> Personal identity becomes a market category</label>
+            <label><input type="checkbox" value="Judgement becomes price" /> Judgement becomes price</label>
+            <label><input type="checkbox" value="The face can be separated from the person" /> The face can be separated from the person</label>
           </fieldset>
           <p class="system-line" id="cost-message" aria-live="polite">AWAITING HIDDEN COST SELECTION</p>
           <div class="room-actions">
@@ -221,16 +243,30 @@ import SystemStatus from '../components/SystemStatus.astro';
           </div>
           <fieldset class="reflection-fieldset">
             <legend>Choose one answer</legend>
-            <label><input type="radio" name="reflection" value="the user" /> the user</label>
+            <label><input type="radio" name="reflection" value="the person" /> the person</label>
             <label><input type="radio" name="reflection" value="the platform" /> the platform</label>
             <label><input type="radio" name="reflection" value="the employer" /> the employer</label>
-            <label><input type="radio" name="reflection" value="the audience" /> the audience</label>
-            <label><input type="radio" name="reflection" value="the AI system" /> the AI system</label>
+            <label><input type="radio" name="reflection" value="the advertiser" /> the advertiser</label>
+            <label><input type="radio" name="reflection" value="the collector" /> the collector</label>
+            <label><input type="radio" name="reflection" value="the algorithm" /> the algorithm</label>
           </fieldset>
           <div class="reflection-response" id="reflection-response" aria-live="polite" hidden>
-            <p>This project asks how digital interfaces turn facial images into measurable, comparable and exchangeable value, and what forms of transparency, consent and control should exist.</p>
+            <p>A face does not have one fixed value. Its value is produced by the systems that want to use it.</p>
+            <p>If a face can become a product, people should have more control, consent and ownership over the value created from their identity.</p>
             <p class="final-message">END OF EXCHANGE PATH</p>
           </div>
+          <details class="testing-questions">
+            <summary>User testing questions</summary>
+            <ol>
+              <li>What do you think this project is joking about?</li>
+              <li>Did it feel like shopping for a face?</li>
+              <li>Which part felt funny?</li>
+              <li>Which part felt uncomfortable?</li>
+              <li>Which agent felt most believable?</li>
+              <li>Who do you think owns the value of a face?</li>
+              <li>What part was confusing?</li>
+            </ol>
+          </details>
           <div class="room-actions">
             <button class="secondary-action" type="button" data-return-corridor>RETURN TO CORRIDOR</button>
             <button class="secondary-action" type="button" id="start-again">START AGAIN</button>

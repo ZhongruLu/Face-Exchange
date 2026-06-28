@@ -11,6 +11,7 @@ const stationReadout = document.querySelector('#station-readout');
 const previousDoorButton = document.querySelector('[data-prev-door]');
 const nextDoorButton = document.querySelector('[data-next-door]');
 const enterActiveButton = document.querySelector('[data-enter-active]');
+const enterEntranceButton = document.querySelector('[data-enter-entrance]');
 
 const video = document.querySelector('#camera-video');
 const canvas = document.querySelector('#capture-canvas');
@@ -26,6 +27,7 @@ const captureNext = document.querySelector('#capture-next');
 const packageNext = document.querySelector('#package-next');
 const metadataTags = document.querySelector('#metadata-tags');
 const valueGrid = document.querySelector('#value-grid');
+const valueComment = document.querySelector('#value-comment');
 const auctionMessage = document.querySelector('#auction-message');
 const costMessage = document.querySelector('#cost-message');
 const resultPanel = document.querySelector('#result-panel');
@@ -57,39 +59,49 @@ const roomLabels = {
 
 const modeData = {
   corporate: {
-    label: 'Professional Face',
-    tags: ['work-ready signal', 'formal presentation', 'controlled expression', 'employment value', 'institutional fit'],
+    label: 'Job Interview Face',
+    tags: ['employability', 'professional trust', 'corporate fit', 'market-ready', 'work signal'],
     values: { 'Trust Index': 72, 'Employability Rating': 88, 'Attention Demand': 38, 'Authority Signal': 78, 'Access Value': 62, 'Resale Potential': 42 },
   },
   creative: {
-    label: 'Trustworthy Face',
-    tags: ['clear lighting', 'stable expression', 'identity confidence', 'trust value', 'service platform value'],
+    label: 'Trustworthy Service Face',
+    tags: ['care signal', 'customer support', 'public trust', 'service-ready', 'confidence value'],
     values: { 'Trust Index': 91, 'Employability Rating': 70, 'Attention Demand': 45, 'Authority Signal': 68, 'Access Value': 76, 'Resale Potential': 48 },
   },
   livestream: {
-    label: 'Young Face',
-    tags: ['youth signal', 'trend fit', 'attention-ready', 'lifestyle value', 'growth market'],
+    label: 'Algorithm-Friendly Face',
+    tags: ['trend fit', 'machine-readable', 'visibility signal', 'platform growth', 'recommendation-ready'],
     values: { 'Trust Index': 54, 'Employability Rating': 58, 'Attention Demand': 82, 'Authority Signal': 34, 'Access Value': 55, 'Resale Potential': 74 },
   },
   verified: {
     label: 'Passport Face',
-    tags: ['official format', 'document identity', 'border value', 'verification value', 'access control'],
+    tags: ['official identity', 'verification value', 'access control', 'compliance-ready', 'proof signal'],
     values: { 'Trust Index': 86, 'Employability Rating': 64, 'Attention Demand': 30, 'Authority Signal': 82, 'Access Value': 94, 'Resale Potential': 36 },
   },
   influencer: {
     label: 'Influencer Face',
-    tags: ['audience ready', 'brand personality', 'visibility value', 'engagement value', 'platform circulation'],
+    tags: ['audience-ready', 'visibility value', 'engagement signal', 'platform circulation', 'attention asset'],
     values: { 'Trust Index': 60, 'Employability Rating': 52, 'Attention Demand': 96, 'Authority Signal': 48, 'Access Value': 66, 'Resale Potential': 88 },
   },
   premium: {
-    label: 'Premium Face',
-    tags: ['scarcity signal', 'luxury frame', 'high-status cue', 'exclusive access', 'collector value'],
+    label: 'Luxury Identity Face',
+    tags: ['status signal', 'premium branding', 'aspiration value', 'exclusive access', 'collector value'],
     values: { 'Trust Index': 74, 'Employability Rating': 78, 'Attention Demand': 76, 'Authority Signal': 86, 'Access Value': 84, 'Resale Potential': 92 },
   },
 };
 
+const valueComments = {
+  'Trust Index': 'Market confidence adjusted.',
+  'Employability Rating': 'Professional identity score increased.',
+  'Attention Demand': 'High attention potential detected.',
+  'Authority Signal': 'Authority signal packaged for resale.',
+  'Access Value': 'Access value converted into market demand.',
+  'Resale Potential': 'Face value is being produced.',
+};
+
 const state = {
   currentView: 'corridor',
+  entranceState: 'outside',
   activeStation: 0,
   lastDoor: 'enterRoom',
   imageUrl: '',
@@ -109,6 +121,29 @@ function prefersReducedMotion() {
 
 function setStatus(message) {
   if (statusText) statusText.textContent = message;
+}
+
+function hasEnteredCorridor() {
+  return state.entranceState === 'inside';
+}
+
+function setEntranceState(nextState) {
+  state.entranceState = nextState;
+  app.dataset.entrance = nextState;
+  const entered = hasEnteredCorridor();
+  previousDoorButton.disabled = !entered || state.activeStation === 0;
+  nextDoorButton.disabled = !entered || state.activeStation === stations.length - 1;
+  enterActiveButton.disabled = !entered;
+  if (enterEntranceButton) enterEntranceButton.disabled = nextState === 'opening' || entered;
+
+  if (entered) {
+    setStatus(`STATION ${stations[state.activeStation].label} READY`);
+    return;
+  }
+
+  if (nextState === 'ready') setStatus('ENTRANCE GATE READY');
+  else if (nextState === 'opening') setStatus('ENTRANCE OPENING');
+  else setStatus('APPROACH FACE EXCHANGE ENTRANCE');
 }
 
 function stopCamera() {
@@ -148,8 +183,9 @@ function setActiveStation(index, focusDoor = false, source = 'app') {
   app.style.setProperty('--active-station', String(nextIndex));
   app.dataset.activeStation = String(nextIndex);
   stationReadout.textContent = activeStation.label;
-  previousDoorButton.disabled = nextIndex === 0;
-  nextDoorButton.disabled = nextIndex === stations.length - 1;
+  previousDoorButton.disabled = !hasEnteredCorridor() || nextIndex === 0;
+  nextDoorButton.disabled = !hasEnteredCorridor() || nextIndex === stations.length - 1;
+  enterActiveButton.disabled = !hasEnteredCorridor();
 
   if (source !== 'three' && corridorController && !corridorController.isFallback) {
     corridorController.setActiveStation(nextIndex, false);
@@ -173,11 +209,11 @@ function setActiveStation(index, focusDoor = false, source = 'app') {
     }
   }
 
-  setStatus(`STATION ${activeStation.label} READY`);
+  if (hasEnteredCorridor()) setStatus(`STATION ${activeStation.label} READY`);
 }
 
 function moveStation(direction) {
-  if (state.currentView !== 'corridor') return;
+  if (state.currentView !== 'corridor' || !hasEnteredCorridor()) return;
   setActiveStation(state.activeStation + direction, true);
 }
 
@@ -230,6 +266,10 @@ function enterFallbackRoom(view, triggerDoor) {
 }
 
 function enterActiveDoor() {
+  if (!hasEnteredCorridor()) {
+    corridorController?.enterEntrance?.();
+    return;
+  }
   const view = stations[state.activeStation].view;
   const fallbackDoor = document.querySelector(`[data-fallback-door][data-station="${state.activeStation}"]`);
   if (corridorController && !corridorController.isFallback) {
@@ -355,6 +395,7 @@ function animateNumber(output, value) {
 
 function renderValues() {
   valueGrid.replaceChildren();
+  if (valueComment) valueComment.textContent = 'FACE VALUE IS BEING PRODUCED';
   Object.entries(state.values).forEach(([label, value]) => {
     const card = document.createElement('div');
     card.className = 'value-card';
@@ -382,6 +423,7 @@ function renderValues() {
     slider.addEventListener('input', () => {
       state.values[label] = Number(slider.value);
       animateNumber(output, Number(slider.value));
+      if (valueComment) valueComment.textContent = valueComments[label] || 'Market confidence adjusted.';
     });
 
     card.append(labelElement, output, tag, slider);
@@ -412,7 +454,9 @@ function renderAuction() {
   });
 
   const winner = Object.entries(bids).sort((a, b) => b[1] - a[1])[0];
-  auctionMessage.textContent = `HIGHEST FICTIONAL BID: ${winner[0].toUpperCase()} / ${winner[1]}`;
+  const average = getAverageValue();
+  const marketLine = average > 75 ? 'FACE VALUE RISING' : average > 55 ? 'AGENT INTEREST DETECTED' : 'NEW BID RECEIVED';
+  auctionMessage.textContent = `${marketLine}: ${winner[0].toUpperCase()} LEADS / ${winner[1]} FVU`;
 }
 
 function updateCosts() {
@@ -425,16 +469,16 @@ function renderResult() {
   const values = Object.keys(state.values).length ? state.values : { 'Trust Index': 0, 'Employability Rating': 0, 'Attention Demand': 0, 'Authority Signal': 0, 'Access Value': 0, 'Resale Potential': 0 };
   const costs = state.hiddenCosts.length ? state.hiddenCosts : ['No hidden costs selected'];
   const rows = [
-    ['Selected classification mode', modeData[state.mode]?.label || 'Unselected'],
+    ['Selected face product', modeData[state.mode]?.label || 'Unselected'],
     ['Trust Index', values['Trust Index']],
     ['Employability Rating', values['Employability Rating']],
     ['Attention Demand', values['Attention Demand']],
     ['Authority Signal', values['Authority Signal']],
     ['Access Value', values['Access Value']],
     ['Resale Potential', values['Resale Potential']],
-    ['Average exchange value', getAverageValue()],
+    ['Average face value', `${getAverageValue()} FVU`],
     ['Hidden costs registered', costs.join(', ')],
-    ['System status', 'EXCHANGED'],
+    ['System status', 'IDENTITY ASSET IN DEMAND'],
   ];
 
   resultPanel.replaceChildren(
@@ -450,6 +494,7 @@ function resetExperience() {
   stopCamera();
   if (state.imageUrl.startsWith('blob:')) URL.revokeObjectURL(state.imageUrl);
   state.currentView = 'corridor';
+  state.entranceState = corridorController?.getEntranceState?.() || 'inside';
   state.activeStation = 0;
   state.lastDoor = 'enterRoom';
   state.imageUrl = '';
@@ -472,11 +517,13 @@ function resetExperience() {
   });
   reflectionResponse.hidden = true;
   cameraMessage.textContent = 'Camera access is optional. Upload remains available if access is unavailable or denied.';
+  if (valueComment) valueComment.textContent = 'FACE VALUE IS BEING PRODUCED';
   costMessage.textContent = 'AWAITING HIDDEN COST SELECTION';
   auctionMessage.textContent = 'BIDS WAITING FOR VALUE INPUT';
   setCurrentView('corridor', false);
+  setEntranceState(state.entranceState);
   setActiveStation(0, false);
-  setStatus('SYSTEM WAITING');
+  setStatus(hasEnteredCorridor() ? 'SYSTEM WAITING' : 'APPROACH FACE EXCHANGE ENTRANCE');
 }
 
 doors.forEach((door) => {
@@ -486,6 +533,13 @@ doors.forEach((door) => {
 previousDoorButton.addEventListener('click', () => moveStation(-1));
 nextDoorButton.addEventListener('click', () => moveStation(1));
 enterActiveButton.addEventListener('click', enterActiveDoor);
+enterEntranceButton?.addEventListener('click', () => {
+  if (corridorController?.isFallback) {
+    setEntranceState('inside');
+    return;
+  }
+  corridorController?.enterEntrance?.(true);
+});
 
 corridor.addEventListener('wheel', (event) => {
   if (state.currentView !== 'corridor') return;
@@ -511,6 +565,12 @@ window.addEventListener('keydown', (event) => {
   if (state.currentView !== 'corridor') return;
   const isThreeMode = corridorController && !corridorController.isFallback;
 
+  if (event.key === 'Escape' && isThreeMode && !hasEnteredCorridor()) {
+    event.preventDefault();
+    corridorController.cancelEntrance?.();
+    return;
+  }
+
   if (isThreeMode && (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w')) {
     event.preventDefault();
     corridorController.moveAlong(1);
@@ -533,7 +593,16 @@ window.addEventListener('keydown', (event) => {
   }
   if (isThreeMode && event.key === 'Enter') {
     event.preventDefault();
-    enterActiveDoor();
+    if (hasEnteredCorridor()) enterActiveDoor();
+    else corridorController.enterEntrance?.();
+    return;
+  }
+
+  if (!isThreeMode && !hasEnteredCorridor()) {
+    if (event.key === 'Enter' || event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') {
+      event.preventDefault();
+      setEntranceState('inside');
+    }
     return;
   }
 
@@ -588,6 +657,8 @@ corridorController = initThreeCorridor({
   initialStation: 0,
   onStationChange: (index) => setActiveStation(index, false, 'three'),
   onEnterDoor: showRoom,
+  onEntranceChange: setEntranceState,
+  reducedMotion: prefersReducedMotion(),
 });
 
 if (corridorController?.isFallback) {
@@ -601,4 +672,4 @@ if (corridorController?.isFallback) {
 
 setActiveStation(0, false);
 setCurrentView('corridor', false);
-setStatus('SYSTEM WAITING');
+setEntranceState(corridorController?.getEntranceState?.() || state.entranceState);

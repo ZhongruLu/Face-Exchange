@@ -9,6 +9,9 @@ const START_Z = 3.2;
 const WALK_SPEED = 0.018;
 const MAX_VELOCITY = 0.16;
 const NEAR_DISTANCE = 4.6;
+const ENTRANCE_OUTSIDE_Z = 14.5;
+const ENTRANCE_READY_Z = 8.1;
+const ENTRANCE_GATE_Z = 5.45;
 
 function canUseWebGL() {
   try {
@@ -120,9 +123,95 @@ function makeMarketSign() {
   return sprite;
 }
 
+function makeEntranceSign() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 720;
+  canvas.height = 220;
+  const context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.strokeStyle = 'rgba(156, 201, 164, 0.36)';
+  context.lineWidth = 2;
+  context.strokeRect(70, 36, canvas.width - 140, canvas.height - 72);
+  context.fillStyle = '#9cc9a4';
+  context.font = '600 48px monospace';
+  context.textAlign = 'center';
+  context.fillText('FACE EXCHANGE', canvas.width / 2, 98);
+  context.fillStyle = '#aeb9b0';
+  context.font = '24px monospace';
+  context.fillText('Identity Asset Market', canvas.width / 2, 144);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.82, depthWrite: false });
+  const sprite = new THREE.Sprite(material);
+  sprite.scale.set(5.8, 1.78, 1);
+  return sprite;
+}
+
+function createEntranceGate() {
+  const group = new THREE.Group();
+  group.position.set(0, 0, ENTRANCE_GATE_Z);
+  group.userData = { isEntranceGate: true };
+
+  const depth = new THREE.Group();
+  for (let index = 0; index < 4; index += 1) {
+    const frame = makeRectLines(6.8 - index * 0.35, 6.2 - index * 0.24, LINE_COLOR, 0.18 - index * 0.025);
+    frame.position.set(0, 3.05, -index * 0.46);
+    depth.add(frame);
+  }
+  group.add(depth);
+
+  const faceOutline = makeEllipseLines(6.1, 6.9, 96, ACTIVE_COLOR, 0.2);
+  faceOutline.position.set(0, 3.05, 0.04);
+  group.add(faceOutline);
+
+  const panelMaterial = new THREE.MeshBasicMaterial({ color: 0x171b18, transparent: true, opacity: 0.22, side: THREE.DoubleSide });
+  const panelGeometry = new THREE.PlaneGeometry(2.82, 4.95);
+
+  const leftPanel = new THREE.Mesh(panelGeometry, panelMaterial.clone());
+  leftPanel.position.set(-1.43, 2.56, 0.06);
+  const rightPanel = new THREE.Mesh(panelGeometry, panelMaterial.clone());
+  rightPanel.position.set(1.43, 2.56, 0.06);
+
+  const divider = new THREE.LineSegments(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0.08, 0.11), new THREE.Vector3(0, 5.02, 0.11)]),
+    makeLineMaterial(ACTIVE_COLOR, 0.34),
+  );
+  const leftLines = makeRectLines(2.82, 4.95, LINE_COLOR, 0.44);
+  leftLines.position.set(-1.43, 2.56, 0.12);
+  const rightLines = makeRectLines(2.82, 4.95, LINE_COLOR, 0.44);
+  rightLines.position.set(1.43, 2.56, 0.12);
+  const scanLine = new THREE.LineSegments(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-2.65, 2.56, 0.14), new THREE.Vector3(2.65, 2.56, 0.14)]),
+    makeLineMaterial(ACTIVE_COLOR, 0.26),
+  );
+
+  const sign = makeEntranceSign();
+  sign.position.set(0, 6.8, 0.12);
+
+  const plaque = makeRectLines(2.4, 0.5, LINE_COLOR, 0.24);
+  plaque.position.set(0, 0.48, 0.12);
+
+  const hit = new THREE.Mesh(
+    new THREE.PlaneGeometry(6.4, 6.4),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+  );
+  hit.position.set(0, 3.12, 0.22);
+  hit.userData = { isEntranceHit: true };
+
+  group.add(leftPanel, rightPanel, leftLines, rightLines, divider, scanLine, sign, plaque, hit);
+  group.userData.leftPanel = leftPanel;
+  group.userData.rightPanel = rightPanel;
+  group.userData.leftLines = leftLines;
+  group.userData.rightLines = rightLines;
+  group.userData.sign = sign;
+  group.userData.hit = hit;
+  return group;
+}
+
 function setMaterialOpacity(object, opacity) {
   object.traverse((child) => {
-    if (child.userData?.isDoorHit) return;
+    if (child.userData?.isDoorHit || child.userData?.isEntranceHit) return;
     if (!child.material) return;
     const materials = Array.isArray(child.material) ? child.material : [child.material];
     materials.forEach((material) => {
@@ -134,7 +223,7 @@ function setMaterialOpacity(object, opacity) {
 
 function setMaterialColor(object, color) {
   object.traverse((child) => {
-    if (child.userData?.isDoorHit) return;
+    if (child.userData?.isDoorHit || child.userData?.isEntranceHit) return;
     if (!child.material?.color) return;
     child.material.color.setHex(color);
   });
@@ -266,7 +355,7 @@ function buildCorridor(scene, stations) {
   return { world, doors };
 }
 
-export function initThreeCorridor({ mount, stations, initialStation = 0, onStationChange, onEnterDoor }) {
+export function initThreeCorridor({ mount, stations, initialStation = 0, reducedMotion = false, onStationChange, onEnterDoor, onEntranceChange }) {
   if (!mount || !canUseWebGL()) {
     return { isFallback: true };
   }
@@ -275,14 +364,18 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
   scene.background = new THREE.Color(BG_COLOR);
 
   const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 180);
-  camera.position.set(0, 2.25, START_Z);
+  camera.position.set(0, 2.25, ENTRANCE_OUTSIDE_Z);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 720 ? 1.25 : 1.75));
   mount.append(renderer.domElement);
 
-  const { doors } = buildCorridor(scene, stations);
+  const { world: corridorWorld, doors } = buildCorridor(scene, stations);
+  const entranceGate = createEntranceGate();
+  scene.add(entranceGate);
+  corridorWorld.visible = false;
   const hits = doors.map((door) => door.userData.hit);
+  const entranceHits = [entranceGate.userData.hit];
 
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2(20, 20);
@@ -295,14 +388,26 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
   let nearbyStation = activeStation;
   let hoveredStation = -1;
   let enabled = true;
+  let entranceState = reducedMotion ? 'inside' : 'outside';
   let entering = false;
+  let openingEntrance = false;
   let disposed = false;
   let enterStart = 0;
+  let entranceStart = 0;
   let enterView = '';
   let corridorZ = START_Z;
+  let entranceZ = ENTRANCE_OUTSIDE_Z;
   let velocity = 0;
+  let entranceVelocity = 0;
   let lookOffset = 0;
+  let corridorReveal = reducedMotion ? 1 : 0;
   const minZ = -((stations.length - 1) * STATION_GAP) - 4;
+
+  if (reducedMotion) {
+    camera.position.set(0, 2.25, START_Z);
+    entranceGate.visible = false;
+    corridorWorld.visible = true;
+  }
 
   function resize() {
     const rect = mount.getBoundingClientRect();
@@ -319,13 +424,13 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
       const stationDistance = Math.abs(index - activeStation);
       const isActive = index === nearbyStation && zDistance < NEAR_DISTANCE;
       const isHovered = index === hoveredStation;
-      const opacity = isActive ? 0.98 : zDistance < 9 ? 0.48 : 0.16;
+      const opacity = (isActive ? 0.98 : zDistance < 9 ? 0.48 : 0.16) * corridorReveal;
       const color = isActive || isHovered ? ACTIVE_COLOR : zDistance < 9 ? LINE_COLOR : MUTED_COLOR;
       const scale = isActive ? 1.06 : zDistance < 9 ? 0.9 : 0.72;
       setMaterialOpacity(door, opacity);
       setMaterialColor(door, color);
       door.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.18);
-      door.visible = stationDistance <= 2 || zDistance < 18;
+      door.visible = corridorReveal > 0.02 && (stationDistance <= 2 || zDistance < 18);
       door.userData.leftPivot.rotation.y += (0 - door.userData.leftPivot.rotation.y) * 0.16;
       door.userData.rightPivot.rotation.y += (0 - door.userData.rightPivot.rotation.y) * 0.16;
       door.userData.leftPivot.position.x += (-0.08 - door.userData.leftPivot.position.x) * 0.16;
@@ -365,6 +470,17 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
 
   function updateHover() {
     if (!enabled || entering) return;
+    if (entranceState !== 'inside') {
+      if (entranceState !== 'ready') {
+        hoveredStation = -1;
+        renderer.domElement.style.cursor = 'default';
+        return;
+      }
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(entranceHits, false)[0];
+      renderer.domElement.style.cursor = hit ? 'pointer' : 'default';
+      return;
+    }
     raycaster.setFromCamera(pointer, camera);
     const hit = raycaster.intersectObjects(hits, false)[0];
     const station = hit ? hit.object.userData.stationIndex : -1;
@@ -374,6 +490,10 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
   }
 
   function enterActiveDoor() {
+    if (entranceState !== 'inside') {
+      enterEntrance();
+      return;
+    }
     if (!enabled || entering) return;
     const door = doors[nearbyStation];
     if (Math.abs(corridorZ - door.userData.nodeZ) > NEAR_DISTANCE) return;
@@ -384,13 +504,45 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
   }
 
   function moveStation(direction) {
-    if (!enabled || entering) return;
+    if (!enabled || entering || entranceState !== 'inside') return;
     setActiveStation(activeStation + direction);
   }
 
   function moveAlong(direction) {
     if (!enabled || entering) return;
+    if (entranceState !== 'inside') {
+      if (openingEntrance) return;
+      entranceVelocity = clamp(entranceVelocity - direction * 0.08, -0.22, 0.12);
+      if (entranceState === 'outside') setEntranceState('approaching');
+      return;
+    }
     velocity = clamp(velocity - direction * 0.045, -MAX_VELOCITY, MAX_VELOCITY);
+  }
+
+  function setEntranceState(nextState) {
+    if (entranceState === nextState) return;
+    entranceState = nextState;
+    onEntranceChange?.(entranceState);
+  }
+
+  function enterEntrance(force = false) {
+    if (!enabled || openingEntrance || entranceState === 'inside') return;
+    if (entranceState !== 'ready') {
+      if (!force) return;
+      entranceVelocity = 0;
+      entranceZ = ENTRANCE_READY_Z;
+      setEntranceState('ready');
+    }
+    openingEntrance = true;
+    entranceStart = performance.now();
+    setEntranceState('opening');
+  }
+
+  function cancelEntrance() {
+    if (entranceState !== 'approaching' && entranceState !== 'ready') return;
+    entranceVelocity = 0;
+    entranceZ = ENTRANCE_OUTSIDE_Z;
+    setEntranceState('outside');
   }
 
   function onPointerMove(event) {
@@ -406,6 +558,11 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
     if (!enabled || entering) return;
     updatePointer(event);
     raycaster.setFromCamera(pointer, camera);
+    if (entranceState !== 'inside') {
+      const hit = raycaster.intersectObjects(entranceHits, false)[0];
+      if (hit) enterEntrance();
+      return;
+    }
     const hit = raycaster.intersectObjects(hits, false)[0];
     if (!hit) return;
     const station = hit.object.userData.stationIndex;
@@ -422,7 +579,37 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
     event.preventDefault();
     const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
     if (Math.abs(delta) < 4) return;
+    if (entranceState !== 'inside') {
+      if (openingEntrance) return;
+      entranceVelocity = clamp(entranceVelocity - delta * WALK_SPEED, -0.22, 0.12);
+      if (entranceState === 'outside') setEntranceState('approaching');
+      return;
+    }
     velocity = clamp(velocity - delta * WALK_SPEED, -MAX_VELOCITY, MAX_VELOCITY);
+  }
+
+  function animateEntranceOpening() {
+    const progress = reducedMotion ? 1 : clamp((performance.now() - entranceStart) / 1300, 0, 1);
+    const eased = easeInOut(progress);
+    entranceGate.userData.leftPanel.position.x = -1.43 - eased * 1.85;
+    entranceGate.userData.rightPanel.position.x = 1.43 + eased * 1.85;
+    entranceGate.userData.leftLines.position.x = -1.43 - eased * 1.85;
+    entranceGate.userData.rightLines.position.x = 1.43 + eased * 1.85;
+    setMaterialOpacity(entranceGate, 1 - eased * 0.72);
+    corridorReveal = clamp((progress - 0.35) / 0.55, 0, 1);
+    corridorWorld.visible = corridorReveal > 0;
+    setMaterialOpacity(corridorWorld, corridorReveal * 0.2);
+    targetCamera.set(0, 2.25, ENTRANCE_READY_Z + (START_Z - ENTRANCE_READY_Z) * eased);
+    targetLook.set(0, 2.15, START_Z - 8);
+    if (progress >= 1) {
+      openingEntrance = false;
+      entranceGate.visible = false;
+      corridorReveal = 1;
+      corridorWorld.visible = true;
+      corridorZ = START_Z;
+      setEntranceState('inside');
+      onStationChange?.(activeStation);
+    }
   }
 
   function animateEntering() {
@@ -452,7 +639,18 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
     requestAnimationFrame(render);
     const delta = Math.min(clock.getDelta(), 0.05);
     updateHover();
-    if (!entering) {
+    if (entranceState !== 'inside') {
+      if (openingEntrance) {
+        animateEntranceOpening();
+      } else {
+        entranceZ = clamp(entranceZ + entranceVelocity, ENTRANCE_READY_Z, ENTRANCE_OUTSIDE_Z);
+        entranceVelocity *= 0.88;
+        targetCamera.set(0, 2.25, entranceZ);
+        targetLook.set(0, 2.35, ENTRANCE_GATE_Z - 0.4);
+        if (entranceZ <= ENTRANCE_READY_Z + 0.08) setEntranceState('ready');
+        else if (entranceState === 'ready') setEntranceState('approaching');
+      }
+    } else if (!entering) {
       corridorZ = clamp(corridorZ + velocity, minZ, START_Z);
       velocity *= 0.9;
       updateNearbyStation();
@@ -475,6 +673,7 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
 
   resize();
   setActiveStation(activeStation, false);
+  onEntranceChange?.(entranceState);
   render();
 
   return {
@@ -482,6 +681,11 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
     setActiveStation,
     moveStation,
     moveAlong,
+    enterEntrance,
+    cancelEntrance,
+    getEntranceState() {
+      return entranceState;
+    },
     look(direction) {
       lookOffset = clamp(lookOffset + direction * 0.8, -1.6, 1.6);
       window.setTimeout(() => {
@@ -497,6 +701,12 @@ export function initThreeCorridor({ mount, stations, initialStation = 0, onStati
       renderer.domElement.style.opacity = '1';
       entering = false;
       enabled = true;
+      if (entranceState !== 'inside') {
+        setEntranceState('inside');
+        entranceGate.visible = false;
+        corridorWorld.visible = true;
+        corridorReveal = 1;
+      }
       setActiveStation(index, false);
     },
     dispose() {
