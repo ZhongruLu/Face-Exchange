@@ -1,0 +1,135 @@
+{
+  "default": {
+    "title": "Face archive",
+    "caption": "Image awaiting collection.",
+    "image": "/assets/gallery/placeholder.svg",
+    "context": "Standardised Faces"
+  },
+  "items": {},
+  "randomPortraits": [
+    {
+      "title": "Portrait 01",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-01.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 02",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-02.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 03",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-03.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 04",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-04.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "AI imagines an actress",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-05.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 06",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-06.jpg",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 07",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-07.png",
+      "sourceFile": "专业商务证件照肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 09",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-09.png",
+      "sourceFile": "汗水闪耀的网球运动员肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 10",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-10.png",
+      "sourceFile": "甜心主播粉色直播人像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 11",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-11.png",
+      "sourceFile": "白金卷发与璀璨珠宝的优雅肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 12",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-12.png",
+      "sourceFile": "透明背景的专业女性肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 13",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-13.png",
+      "sourceFile": "黑背景下的优雅波浪长发肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 14",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-14.png",
+      "sourceFile": "黑色背景下的忧郁凝视.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 15",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-15.png",
+      "sourceFile": "金发蓬松发型的年轻男子肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 16",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-16.png",
+      "sourceFile": "黑色背景下的严肃青年肖像.png",
+      "context": "Standardised Faces"
+    },
+    {
+      "title": "Portrait 17",
+      "caption": "",
+      "image": "/assets/gallery/portraits/portrait-17.png",
+      "sourceFile": "凌乱金发摇滚风肖像.png",
+      "context": "Standardised Faces"
+    }
+  ],
+  "previews": {
+    "/assets/gallery/portraits/portrait-01.jpg": "/assets/gallery/portraits/portrait-01.preview.webp",
+    "/assets/gallery/portraits/portrait-02.jpg": "/assets/gallery/portraits/portrait-02.preview.webp",
+    "/assets/gallery/portraits/portrait-03.jpg": "/assets/gallery/portraits/portrait-03.preview.webp",
+    "/assets/gallery/portraits/portrait-04.jpg": "/assets/gallery/portraits/portrait-04.preview.webp",
+    "/assets/gallery/portraits/portrait-05.jpg": "/assets/gallery/portraits/portrait-05.preview.webp",
+    "/assets/gallery/portraits/portrait-06.jpg": "/assets/gallery/portraits/portrait-06.preview.webp",
+    "/assets/gallery/portraits/portrait-07.png": "/assets/gallery/portraits/portrait-07.preview.webp",
+    "/assets/gallery/portraits/portrait-09.png": "/assets/gallery/portraits/portrait-09.preview.webp",
+    "/assets/gallery/portraits/portrait-10.png": "/assets/gallery/portraits/portrait-10.preview.webp",
+    "/assets/gallery/portraits/portrait-11.png": "/assets/gallery/portraits/portrait-11.preview.webp",
+    "/assets/gallery/portraits/portrait-12.png": "/assets/gallery/portraits/portrait-12.preview.webp",
+    "/assets/gallery/portraits/portrait-13.png": "/assets/gallery/portraits/portrait-13.preview.webp",
+    "/assets/gallery/portraits/portrait-14.png": "/assets/gallery/portraits/portrait-14.preview.webp",
+    "/assets/gallery/portraits/portrait-15.png": "/assets/gallery/portraits/portrait-15.preview.webp",
+    "/assets/gallery/portraits/portrait-16.png": "/assets/gallery/portraits/portrait-16.preview.webp",
+    "/assets/gallery/portraits/portrait-17.png": "/assets/gallery/portraits/portrait-17.preview.webp"
+  }
+}

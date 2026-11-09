@@ -1,0 +1,28 @@
+---
+const { type, compact = false } = Astro.props;
+---
+<figure class:list={['news-graphic', {'news-graphic--compact':compact}]}>
+  <svg viewBox="0 0 420 170" role="img" aria-label="Editorial diagram / 编辑示意图">
+    <defs><pattern id={`hatch-${type}-${compact}`} width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6L6 0" stroke="currentColor" stroke-width=".7" opacity=".4" /></pattern></defs>
+    {type==='trust' ? <>
+      <path d="M56 129H382M56 36V129" fill="none" stroke="currentColor" />
+      <rect x="88" y="59" width="100" height="70" fill={`url(#hatch-${type}-${compact})`} stroke="currentColor" />
+      <rect x="230" y="53.6" width="100" height="75.4" fill="currentColor" />
+      <text x="280" y="35" text-anchor="middle" font-size="23" font-family="Georgia">+7.7%</text>
+      <text x="138" y="151" text-anchor="middle" font-size="13">REAL / 真人</text><text x="280" y="151" text-anchor="middle" font-size="13">AI / 合成</text>
+    </> : <>
+      {[48,170,292].map((x,i)=><g>
+        <rect x={x} y="27" width="80" height="105" fill={i===2?`url(#hatch-${type}-${compact})`:'none'} stroke="currentColor" stroke-width="1.5" />
+        <ellipse cx={x+40} cy="61" rx="16" ry="21" fill="none" stroke="currentColor" />
+        <path d={`M${x+14} 112Q${x+13} 87 ${x+40} 87Q${x+67} 87 ${x+66} 112Z`} fill="none" stroke="currentColor" />
+        <path d={`M${x+29} 62h4m14 0h4m-15 11h9`} fill="none" stroke="currentColor" />
+        <text x={x+40} y="151" text-anchor="middle" font-size="12">{['01','02','03'][i]}</text>
+      </g>)}
+      <path d="M132 80h31l-6-5m6 5-6 5M254 80h31l-6-5m6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.5" />
+      {type==='rights'&&<path d="M301 39l64 81m0-81-64 81" stroke="currentColor" stroke-width="3" />}
+      {type==='reuse'&&<path d="M88 19Q210-12 332 19m-8-8 8 8-12 2" fill="none" stroke="currentColor" />}
+      {type==='licence'&&<text x="210" y="20" text-anchor="middle" font-size="15" font-family="Georgia">LICENCE / 授权</text>}
+    </>}
+  </svg>
+  <figcaption><span class="research-en">{type==='trust'?'Relative mean ratings in the cited study. Diagram, not participant data.':'Editorial illustration. Not a photograph of the people in the report.'}</span><span class="research-zh">{type==='trust'?'据研究平均评分绘制的相对示意图，非个体数据。':'编辑示意图，并非报道当事人照片。'}</span></figcaption>
+</figure>

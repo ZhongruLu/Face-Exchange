@@ -1,0 +1,1 @@
+Vendored from LeonDing319/nano-design, downloaded ZIP commit db66a726ddb78115a635faf13ac1f72995bf182a. MIT, Leon Ding 2026. Only relative import paths changed. Used directly by the waterfall texture adapter.

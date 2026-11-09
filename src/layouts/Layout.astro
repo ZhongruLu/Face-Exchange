@@ -14,13 +14,11 @@ const { title = 'Face Exchange' } = Astro.props;
       content="A speculative interactive website about how digital interfaces turn a face into measurable, comparable and exchangeable value."
     />
     <title>{title}</title>
-    <link rel="icon" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="icon" type="image/png" href="/assets/identity/face-exchange-icon.png" />
+    <link rel="stylesheet" href="/assets/fonts/guidance.css" />
+    <link rel="stylesheet" href="/assets/fonts/editorial.css" />
+    <link rel="preload" href="/assets/fonts/bodoni-moda-roman.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/assets/fonts/newsreader-roman.ttf" as="font" type="font/ttf" crossorigin />
   </head>
   <body>
     <slot />

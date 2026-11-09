@@ -1,0 +1,57 @@
+<span data-glove-press aria-hidden="true"></span>
+
+<style is:global>
+  @media (any-hover: hover) and (any-pointer: fine) and (forced-colors: none) {
+    [data-app] {
+      --exchange-glove: url('/assets/cursors/white-glove.svg') 7 4;
+      --exchange-pointer: var(--exchange-glove), pointer;
+      cursor: var(--exchange-glove), default;
+    }
+
+    [data-app] :is(button:not(:disabled, .guide-fine-print), a[href], summary) {
+      cursor: var(--exchange-pointer);
+    }
+  }
+
+  [data-glove-press] {
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: 100;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    box-sizing: border-box;
+    border: 1px solid #f8dc97;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #e5b86e80;
+    pointer-events: none;
+    opacity: 0;
+  }
+</style>
+
+<script>
+  const press = document.querySelector<HTMLElement>('[data-glove-press]');
+  const app = press?.closest('[data-app]');
+  const canAnimate = window.matchMedia('(prefers-reduced-motion: no-preference)');
+  let animation: Animation | undefined;
+
+  app?.addEventListener('pointerdown', (event) => {
+    if (!(event instanceof PointerEvent) || event.pointerType !== 'mouse' || event.button !== 0 || !canAnimate.matches) return;
+    const target = event.target;
+    if (!app || !press || !(target instanceof Element)) return;
+    const cursor = getComputedStyle(target).cursor;
+    if (!cursor.includes('/white-glove.svg') || !cursor.endsWith(', pointer')) return;
+
+    const layer = target.closest('dialog[open]') ?? app;
+    if (press.parentElement !== layer) layer.append(press);
+
+    animation?.cancel();
+    const position = `translate(${event.clientX}px, ${event.clientY}px)`;
+    animation = press.animate([
+      { opacity: 0.9, transform: `${position} scale(0.32)` },
+      { opacity: 0, transform: `${position} scale(1.22)` },
+    ], { duration: 240, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+  }, { capture: true, passive: true });
+
+  canAnimate.addEventListener('change', () => animation?.cancel());
+</script>

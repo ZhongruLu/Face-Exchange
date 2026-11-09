@@ -1,0 +1,15 @@
+---
+import cases from '../data/researchCases.json';
+const { reflection = false, archive = false } = Astro.props;
+---
+<aside class:list={['research-labels', { 'research-labels--reflection': reflection || archive }]} aria-label="Research notes" data-i18n-ignore>
+  {cases.filter(item => !reflection || item.id === 'FX-R02').map((item, index) => (
+    <details class="research-label" data-research-stations={reflection || archive ? undefined : item.stations.join(',')} open={reflection || archive}>
+      <summary><span>{item.id} · <span class="research-en">{item.kind}</span><span class="research-zh">{item.kind === 'Legal context' ? '法律背景' : '真实案例'}</span></span><strong class="research-en">{item.title}</strong><strong class="research-zh">{item.zhTitle}</strong></summary>
+      <p class="research-en">{item.summary}</p><p class="research-zh">{item.zhSummary}</p>
+      <p class="research-en">{item.question}</p><p class="research-zh">{item.zhQuestion}</p>
+      <a href={item.url} target="_blank" rel="noopener noreferrer">{item.publisher} ↗</a>
+      <small><span class="research-en">Published {item.published} · Checked {item.checked}</span><span class="research-zh">发布 {item.published} · 核查 {item.checked}</span></small>
+    </details>
+  ))}
+</aside>

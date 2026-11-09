@@ -1,0 +1,12 @@
+{
+  "title": "Face Exchange — Video Exhibit",
+  "zhTitle": "Face Exchange · 影像展台",
+  "source": null,
+  "spatialPlayback": {
+    "start": 52,
+    "fullVolume": 78,
+    "fadeAfter": 88,
+    "stop": 101,
+    "maxVolume": 0.85
+  }
+}

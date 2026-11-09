@@ -4,3 +4,17 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
+data/face-archive/images/
+data/face-archive/records.json
+
+.env*.local
+.vercel/
+# Source models and alternate takes that the website does not load.
+public/assets/models/entrance/ornate-carpet-original.glb
+public/assets/models/entrance/ornate-door-clear-threshold.glb
+public/assets/models/entrance/ornate-door-memory.glb
+public/assets/models/entrance/ornate-door-restored.glb
+public/assets/models/entrance/ornate-door-web.glb
+public/assets/video-exhibit/*
+!public/assets/video-exhibit/exhibit.mp4
+!public/assets/video-exhibit/manifest.json

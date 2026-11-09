@@ -1,0 +1,63 @@
+[
+  {
+    "id": "FX-IMAGE-01",
+    "title": "人工智能时代的面孔商标权",
+    "image": "/assets/research/user-newspapers/newspaper-1.png",
+    "preview": "/assets/research/user-newspapers/newspaper-1.preview.webp",
+    "source": {
+      "publisher": "Abion",
+      "author": "Joe Doyle-Ward",
+      "date": "2026-04-01",
+      "url": "https://www.linkedin.com/posts/abion-com_intellectualproperty-brandprotection-aiandip-activity-7444987738006728704-zYL5",
+      "status": "credit-only",
+      "related": "https://hamlins.com/insight/luke-littlers-face-trade-mark-ip-strategy-in-the-era-of-deepfakes/",
+      "noteEn": "The artwork credits Abion and this date. Abion’s own post confirms the article and author; the original article and its date have not yet been independently checked. The related analysis below was published by Hamlins on 23 March 2026.",
+      "noteZh": "图稿署名 Abion 并标注此日期。Abion 官方发布的信息确认了文章和作者，原文页面及日期仍待核实。下方另附 Hamlins 于 2026 年 3 月 23 日发表的相关分析。"
+    }
+  },
+  {
+    "id": "FX-IMAGE-02",
+    "title": "数字面孔的代价",
+    "image": "/assets/research/user-newspapers/newspaper-2.png",
+    "preview": "/assets/research/user-newspapers/newspaper-2.preview.webp",
+    "source": {
+      "publisher": "Science and Technology Daily / Xinhua",
+      "author": "Cui Shuang / 崔爽",
+      "date": "2026-10-16",
+      "url": "https://www.news.cn/tech/20261016/0077ecb5ffcc4f48b7a908195cc94f84/c.html",
+      "status": "checked",
+      "noteEn": "Adapted from “The hidden risks of low-barrier, high-return face licensing”. The reported RMB 2,500 income is a promotional claim, not a verified typical income.",
+      "noteZh": "改编自《低门槛高收益的“卖脸”行为存隐患》。报道中的 2500 元收入来自宣传案例，不代表已核实的普遍收入。"
+    }
+  },
+  {
+    "id": "FX-IMAGE-03",
+    "title": "中国AI人脸租赁：数字身份市场",
+    "image": "/assets/research/user-newspapers/newspaper-3.png",
+    "preview": "/assets/research/user-newspapers/newspaper-3.preview.webp",
+    "source": {
+      "publisher": "Rest of World",
+      "author": "Kinling Lo and Viola Zhou",
+      "date": "2026-07-27",
+      "url": "https://restofworld.org/2026/china-ai-microdramas-face-licensing/zh/",
+      "status": "checked",
+      "noteEn": "An editorial adaptation of reporting on face licensing for AI microdramas in China. The newspaper masthead, layout and illustrative graphics were created for this project.",
+      "noteZh": "根据中国 AI 短剧面孔授权的报道改编。报头、版式与示意图是本项目制作的设计内容。"
+    }
+  },
+  {
+    "id": "FX-IMAGE-04",
+    "title": "AI人脸更可信的真相",
+    "image": "/assets/research/user-newspapers/newspaper-4.png",
+    "preview": "/assets/research/user-newspapers/newspaper-4.preview.webp",
+    "source": {
+      "publisher": "World Economic Forum",
+      "author": "Victoria Masterson",
+      "date": "2022-03-15",
+      "url": "https://www.weforum.org/stories/emerging-technologies/ai-fake-faces-more-trustworthy",
+      "status": "checked",
+      "noteEn": "Adapted from a report about a specific study of perceived trustworthiness. A trust rating does not establish anyone’s actual character or honesty.",
+      "noteZh": "根据一项关于面孔可信度感知的研究报道改编。受试者的评分不能证明任何人的真实性格或诚实程度。"
+    }
+  }
+]

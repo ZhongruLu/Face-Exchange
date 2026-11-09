@@ -1,0 +1,660 @@
+# 网页实际读取的中英文文案，保存后刷新网页即可看到更新。
+# 每行格式：固定识别文本|中文|英文
+# 第一栏用于程序匹配，请保持不动。第二栏改中文，第三栏改英文。
+# 没有第三栏时，英文使用第一栏。请勿在文案内部输入竖线 |。
+# 请在文本编辑器中保存为 UTF-8 纯文本，不要改成 .rtf 或追加 .txt 后缀。
+Assemble a face.|拼合一张面孔。
+Choose the features. Move them. Decide what still looks like you.|选择五官，移动位置，看看什么还像你。
+Previous portrait treatments|原有肖像处理效果
+Assemble a face from features you choose.|用自己选择的五官拼合一张面孔。
+Face shape|脸型
+Eyebrows|眉毛
+Eyes|眼睛
+Nose|鼻子
+Mouth|嘴
+Oval|椭圆
+Angular|棱角
+Round|圆润
+Soft arch|柔和弧形
+Straight|平直
+High arch|高眉峰
+Almond|杏眼
+Wide|圆眼
+Narrow|细长
+Long bridge|长鼻梁
+Broad|宽鼻翼
+Short bridge|短鼻梁
+Closed|闭合
+Full|饱满
+Slight smile|浅笑
+FACE EXCHANGE / COMPOSITION STUDY|FACE EXCHANGE / 面孔拼合实验
+Selected feature size|所选部件大小
+Select a part, then drag it on the face. Arrow keys also move the selected part.|选择部件后在面孔上拖动，也可以用方向键微调位置。
+Undo|撤销
+Reset face|重置面孔
+Use this face|使用这张面孔
+Your reference|原始肖像参考
+Experimental composite · no face recognition.|实验拼合图像 · 不进行人脸识别。
+Changes are local. Apply when ready.|修改暂存在本次浏览中，完成后点击使用。
+Composite ready. Continue to the Valuation Room.|拼合完成，可以前往估值室。
+Could not create the portrait. Please try again.|图像未能生成，请重试。
+Face composition. Select and drag a feature; use arrow keys to move it.|面孔拼合。选择并拖动部件，也可用方向键移动。
+COMPOSITE PORTRAIT READY|拼合肖像已就绪
+Assembled Face|拼合面孔
+PAUSE FLOATING PHOTOS|暂停照片漂浮
+RESUME FLOATING PHOTOS|继续照片漂浮
+Drag to rotate · Scroll to zoom · Click a photo for details · Esc to return|拖拽旋转 · 滚轮缩放 · 点击照片查看详情 · Esc 返回
+Use your camera or choose a portrait. Images are saved to this project’s local archive.|使用相机或选择肖像。图片会保存至本项目的本机档案。
+Follow a simulated likeness licence through an auction.|经历一次模拟的肖像授权拍卖。
+Choose a portrait you have permission to use.|请选择你有权使用的肖像。
+Choose a portrait treatment.|选择一种肖像处理效果。
+These four optional treatments change the portrait. They do not classify your identity.|四种可选效果会改变肖像，不对你的身份进行分类。
+A fictional estimate|模拟估值
+One random estimate for this simulated auction. It does not measure your face or personal worth.|本次模拟拍卖使用一个随机估值，不衡量你的面部或个人价值。
+Simulated licence terms. Continuing does not grant real rights.|模拟授权条款。继续体验不会授予真实权利。
+REVIEW THE TERMS|查看条款
+The simulated auction has ended. Continue to reflection.|模拟拍卖已结束，请继续反思环节。
+Simulation complete.|模拟完成。
+An artistic simulation. No real sale or payment. Camera tracking is used for the live portrait effect.|艺术模拟体验，不涉及真实交易或付款。实时肖像效果使用摄像头追踪。
+Who controls|谁控制
+the next use?|下一次使用？
+The auction you just experienced was a simulation. No likeness rights were transferred.|你刚才经历的是模拟拍卖，没有转让任何真实肖像权。
+In a real licence, the permitted uses, duration and onward transfer need to be clear.|真实授权需要明确用途、期限和转授权范围。
+Would you approve a new role, an advertisement, or another buyer? What should happen to existing copies when permission ends?|你会同意新的角色、广告或买家吗？授权结束后，已生成的副本该如何处理？
+The estimate is random. It is independent of your image and is kept for this round.|估值随机生成，与照片无关，在本轮体验中保持不变。
+Estimate sections|估分项目分组
+Facial features|五官细节
+Face shape and proportions|脸型与比例
+Hair and skin details|发型与肤质
+Expression and camera presence|表情与上镜
+32 randomly generated virtual estimates. Each item is scored out of 100.|共32项随机生成的虚拟估分，每项满分100。
+Eye contour|眼部轮廓
+Lip contour|嘴唇轮廓
+Eyebrow arch|眉毛弧度
+Eye spacing|双眼间距
+Nose bridge contour|鼻梁轮廓
+Mouth corner curve|嘴角弧度
+Forehead proportion|额头比例
+Cheek contour|脸颊轮廓
+Cheekbone contour|颧骨轮廓
+Jawline definition|下颌线条
+Chin contour|下巴轮廓
+Face length and width|脸部长宽
+Feature spacing|五官间距
+Left-right balance|左右平衡
+Hairline contour|发际线轮廓
+Hair volume|头发蓬松度
+Hair neatness|头发整齐度
+Skin texture visibility|皮肤纹理清晰度
+Skin tone evenness|面部肤色均匀度
+Facial highlights|面部反光程度
+Under-eye shadows|眼下阴影程度
+Smile amplitude|笑容幅度
+Gaze towards camera|视线朝向镜头
+Expression relaxation|表情放松程度
+Face angle to camera|面部拍摄角度
+Lighting evenness|面部光线均匀度
+The outline and arrangement of the eyebrows.|眉毛的边缘轮廓与排列。
+The visible shape of the upper and lower eyelids.|上下眼睑在画面中的形状。
+The outline of the nose tip and nostrils.|鼻尖与鼻翼的外缘轮廓。
+The outline of the upper and lower lips.|上唇与下唇的边缘线条。
+The curve from the brow head to the brow tail.|眉头到眉尾的弯曲程度。
+The distance between the eyes in the portrait.|肖像中左右眼之间的距离。
+The visible line from the bridge to the nose tip.|鼻梁到鼻尖的线条变化。
+The upward or downward curve at the mouth corners.|两侧嘴角向上或向下的弧度。
+The space between the eyebrows and the hairline.|眉毛到发际线之间的空间。
+The visible fullness and outline of the cheeks.|脸颊在画面中的饱满程度与形状。
+The outline below the outer corners of the eyes.|眼睛外侧下方的颧骨线条。
+The visible edge from the ears towards the chin.|耳侧到下巴之间的下颌边缘。
+The shape and curve at the bottom of the face.|面部最下方的形状与弧度。
+The relationship between face height and width.|脸部纵向长度与横向宽度的关系。
+The arrangement of the eyes, nose and mouth.|眼睛、鼻子与嘴巴之间的排列。
+The visible balance between both sides of the face.|画面中面部两侧的视觉平衡。
+The hairstyle and outline around the face.|发型以及面部周围的头发轮廓。
+The visible edge between the forehead and hair.|额头与头发交界处的线条。
+The visible fullness around the top and sides.|头顶与两侧头发的蓬松程度。
+The arrangement of strands around the face.|面部周围发丝的排列与整齐程度。
+How clearly small skin details appear in the image.|照片中皮肤细小纹理的可见程度。
+The visible colour variation within the face.|面部不同区域的可见色差。
+The shine on the forehead, nose and cheeks.|额头、鼻子与脸颊的反光程度。
+The visible shadows directly below the eyes.|眼睛下方阴影的明显程度。
+The first visual impression of this portrait.|这张肖像给人的第一眼印象。
+A playful impression of the expression in this frame.|这张画面中表情给人的乖巧印象。
+A playful impression of looking occupied in this frame.|这张画面中看起来忙碌的程度。
+The visible movement of the lips and mouth corners.|嘴唇与嘴角在画面中的笑容幅度。
+How directly the eyes appear to face the lens.|双眼看向镜头的直接程度。
+The visible tension around the brow and mouth.|眉间与嘴角在画面中的放松程度。
+The degree of turning or tilting in the portrait.|肖像中面部转向与倾斜的程度。
+The difference in light between both sides of the face.|面部左右两侧的明暗差异。
+Choose a portrait style|选择面值风格
+Recognition complete. Choose your face-value style.|识别完成，请挑选适合你的面值风格
+Your face will be designed and packaged into your own commercial auction lot. Trust our quality.|此处将对你的面容进行设计、包装，生成属于你的商业拍卖品，相信我们的品质
+01 / Staff|01 / 工作人员
+02 / Artist|02 / 艺术家
+03 / Singer|03 / 歌手
+04 / Designer|04 / 设计师
+Staff|工作人员
+Artist|艺术家
+Singer|歌手
+Designer|设计师
+Staff Portrait|工作人员形象
+Artist Portrait|艺术家形象
+Singer Portrait|歌手形象
+Designer Portrait|设计师形象
+A work uniform, shirt collar and staff badge.|工作服、衬衫领口与员工胸牌。
+Long hair, an artist’s smock and paintbrushes.|长头发、艺术家工作衫与画笔。
+A stage jacket and a handheld microphone.|舞台外套与手持麦克风。
+A dark turtleneck, glasses and a sketchbook.|深色高领衫、眼镜与设计手稿。
+Portrait could not be created. Choose a style to retry.|形象暂时无法生成，请重新选择风格。
+work uniform|工作服
+staff badge|员工胸牌
+staff portrait|工作人员肖像
+long hair|长发
+artist smock|艺术家工作衫
+paintbrushes|画笔
+stage jacket|舞台外套
+microphone|麦克风
+singer|歌手
+designer|设计师
+glasses|眼镜
+sketchbook|设计手稿
+Your face, scored|你的面部估分
+A randomly generated virtual estimate. Each item is scored out of 100.|系统随机生成的虚拟估分，每项满分100。
+This round’s estimate|本次虚拟估分
+Virtual estimate ready|虚拟估分已生成
+Virtual score / 100|虚拟估分 / 满分100
+Your selected portrait|你选择的肖像
+Hair|头发
+Overall impression|整体印象
+Looks well-behaved|看起来乖巧
+Looks busy|看起来忙碌
+Inspect wall collection|查看墙面藏品
+Face archive|面容档案
+Image awaiting collection.|图像待入藏。
+Close image|关闭图片
+Previous page|上一页
+Next page|下一页
+Zoom out|缩小
+Zoom in|放大
+Select artwork|选择藏品
+Left wall|左侧墙面
+Right wall|右侧墙面
+Loading image…|正在载入图片…
+Image unavailable. Close to return to the gallery.|图片暂时无法载入，关闭即可返回走廊。
+Scroll to zoom · Drag to inspect · Esc to return|滚轮缩放 · 拖动查看 · Esc 返回
+Facial Auction Hall|面价|Face Value Hall
+Facial Auction|面部拍卖
+Hall|大厅
+FACE EXCHANGE|面部交易
+FACIAL AUCTION HALL|面价大厅|FACE VALUE HALL
+Introduction|介绍
+Inspection Room|检验室
+Face Swap Room|换脸室
+Valuation Room|评估室
+Auction Hall|拍卖场
+Sale|出售信息|Sale Details
+Honour|我们的VIP|Our VIPs
+Reflection|反思
+Afterlife|余生
+Upload Your Face Here|开始上传你的面容|Begin uploading your face
+USE CAMERA|使用相机
+UPLOAD IMAGE|上传图片
+TAKE STILL IMAGE|拍摄照片
+LOCAL FACE PREVIEW WAITING|等待您的面容|Waiting for your face
+Choose file|选择文件
+No file chosen|未选择文件
+Camera access is optional. Upload remains available if access is unavailable or denied.|摄像头权限为可选。即使无法访问或拒绝授权，你仍可以上传图片。
+Congratulations. Your face is ready to become a product.|恭喜！你的脸已准备好成为一件商品。
+Your image is ready. It will be saved in this project’s face archive.|我们将收录你的面容作为档案。|We’ll add your face to our archive.
+Camera is unavailable in this browser. Use image upload instead.|当前浏览器无法使用相机，请上传图片。
+Camera is active locally. Take a still image when ready.|相机已开启，准备好后即可拍摄照片。
+Camera permission was denied or unavailable. Use image upload instead.|相机权限被拒绝或无法访问，请上传图片。
+Still image captured locally inside this browser session.|照片已拍摄。
+Please upload an image file.|请选择图片文件。
+RETURN TO CORRIDOR|返回走廊
+CONTINUE TO NEXT ROOM|继续前往下一房间
+RETURN TO GALLERY|返回走廊
+RETURN TO THE GALLERY|返回走廊
+USE THE WORKSTATION|使用工作台
+ACTIVATE THE ARTWORK|启动作品
+WALK CLOSER TO USE THE WORKSTATION|点击靠近使用|CLICK TO MOVE CLOSER AND GET STARTED
+SCROLL / W TO APPROACH|滚动鼠标 / W 靠近
+CLICK GATE TO ENTER|点击大门进入
+SCROLL / W / S TO MOVE|滚动鼠标 / W / S 移动
+CLICK NEARBY FACE NODE TO ENTER|点击附近房门进入
+ENTER THE MARKET|进入大厅
+Keyboard navigation|键盘导航
+PREVIOUS NODE|上一房间
+ENTER NEARBY NODE|进入附近房间
+NEXT NODE|下一房间
+FULL SCREEN|全屏
+EXIT FULL SCREEN|退出全屏
+Enter full screen|进入全屏
+Exit full screen|退出全屏
+Open sound controls|打开声音设置
+Sound controls|音乐|Music
+Sound volume|音量
+ENABLE SOUND|开启声音
+Enable sound|开启声音
+SOUND ON|声音已开启
+SOUND OFF|声音已关闭
+VOLUME|音量
+Click ENABLE SOUND to play.|点击开启声音以播放。
+Click ENABLE SOUND to play the auction ambience.|点击开启声音以播放会场环境音。
+Sound playback was blocked.|声音播放被阻止。
+Auction ambience unavailable.|拍卖会环境音暂不可用。
+Gavel sound could not play.|无法播放落槌声音。
+GUEST CODE|贵宾
+OF CONDUCT|行为守则
+Welcome, Distinguished Guest.|欢迎您，尊贵的来宾。
+This is Face Exchange.|这里是面部交易所！|This is Face Exchange!
+Every face is welcome. Every face has a price.|是不是很好奇自己的脸会价值多少！你的容貌就是宝贵的财富。|Curious to know how much your face is worth? Your face is a precious asset!
+PRESENT YOUR FINEST FACE|将你的面部交给我们！|ENTRUST YOUR FACE TO US!
+A fine portrait deserves an even finer owner.|在这里挑选你喜欢的面容|Choose a face you like here.
+ACCEPT YOUR VALUATION|让我们给你一个超惊喜的价格|LET US GIVE YOU A PRICE THAT WILL AMAZE YOU
+Our system will determine your fictional market value. We appreciate your trust.|别担心！我们一定会好好的对待你的脸，相信我们！|Don’t worry! We’ll take good care of your face. Trust us!
+READ BEFORE YOU SIGN|从左边的第一个房间开始吧|START WITH THE FIRST ROOM ON THE LEFT
+A signature opens many doors. Some may never close.|所有的内容都可以进行互动（墙上的相框以及告示！）|Everything is interactive, including the framed pictures and notices on the walls!
+ENJOY YOUR SALE|享受你的拍卖之旅|ENJOY YOUR AUCTION JOURNEY
+IMPORTANT NOTICE|重要提示
+ALL SALES ARE FINAL.|所有成交均为最终交易。
+NO RETURNS. NO REFUNDS.|不可退货。不可退款。
+SCROLL FORWARD TO UNFOLD THE JOURNEY|所有成交均为最终交易|ALL SALES ARE FINAL.
+SCROLL BACK TO READ THIS SCROLL AGAIN|不可退货。不可退款。|NO RETURNS. NO REFUNDS.
+A space to begin the exchange.|在这里开始面部交易。
+Use the wall workstation to offer your likeness.|使用墙面工作台提交你的面容。
+Shape a living mask with your own expressions.|用你的表情塑造一张动态面具。
+Examine the machinery of fictional value.|观察虚构价值的评估过程。
+Your likeness is the lot. Watch the anonymous bidders from the balcony.|你的面容就是拍品。在看台上观察匿名竞拍者。
+Visit the record of your sale.|查看你的成交记录。
+Uploaded faces, transformed and repeated. Every version retains its source and sale price.|上传的面容经过变形与复制。每个版本保留来源与成交价。
+Consider what remains yours.|想一想，什么还属于你。
+UNFOLD THE INVITATION|展开邀请
+ILLUMINATE THE RELIQUARY|照亮面容
+TRY EXPRESSION DEMO|体验表情演示
+PULSE THE INDEX|启动指数
+REVEAL THE SEAL|展示印章
+VIEW THE RECORD|查看记录
+VIEW THE CASCADE|查看面容瀑布
+SHIFT THE MIRROR|移动镜面
+W / S to walk · A / D to step sideways · arrows to look · Esc to return|W / S 行走 · A / D 横移 · 方向键观察 · Esc 返回
+Move your pointer or use arrows to look · Esc to return|移动鼠标或使用方向键观察 · Esc 返回
+Click a face to inspect its sale price · Move your pointer to look · Esc to return|点击面容查看成交价 · 移动鼠标观察 · Esc 返回
+The workstation is interactive. Scroll inside it to read more.|工作台可以互动。滚动面板以阅读更多内容。
+The artwork is active. Click it again to quiet the motion.|作品已启动。再次点击可停止运动。
+The artwork has returned to rest.|作品已停止运动。
+Congratulations, honoured guest.|恭喜您，尊贵的来宾。
+Your face has been sold. Please proceed to the next room.|你的面容已成功拍卖。请移步下一房间。
+Proceed to the next room|前往下一房间
+AFTER THE SALE|成交之后
+How would you know?|如何能知道呢？
+When you upload your portrait and sign a contract to sell it, you know what you’re handing over. You can’t know where it will end up, who will use it next, or what they’ll do with it.|当你把自己的肖像上传到网站，并签下出售合同，你知道自己交出去的是什么。可你无从知道这张脸会出现在哪里、接下来谁会用它，又会拿它做什么。
+Would someone buy your face? They could use it for anything, and you might never know.|别人会购买你的脸吗？他们可能用你的脸做任何事，而你无从得知。
+Your face.|你的脸。
+Someone else’s future.|别人的未来。
+Once your face is sold, it may no longer be yours to control.|一旦出售，你的脸可能不再由你掌控。
+It could speak words you never said.|它可能说出你从未说过的话。
+Sell something you never chose.|推销你从未选择的商品。
+Become someone you never intended to be.|成为你从未想成为的人。
+A moment of permission can lead to a lifetime of consequences.|一时的授权，可能带来一生的后果。
+Return to the hall|返回大厅
+NOT SOLD|尚未成交
+Not sold|尚未成交
+No completed auction has been recorded for this upload.|这张面容尚无成交记录。
+SOLD|已成交
+LIVE AUCTION · FICTIONAL|拍卖进行中 · 虚构交易
+FINAL SALE · FICTIONAL|最终成交 · 虚构交易
+FACE SWAP ROOM|换脸室
+Capture your face.|采集你的面容。
+Turn your face left, right, up and down to complete the capture. Camera images stay on this device.|请向左、右、上、下转动面部，完成采集。相机画面保留在本设备。
+Preparing the expression model…|正在准备表情模型…
+START CAMERA|开启相机
+STOP CAMERA|关闭相机
+CANCEL CAMERA|取消开启
+TRY DEMO|体验演示
+Surface|材质
+Liquid gold|流动黄金
+Dark porcelain|深色瓷面
+Gold structure|金色结构
+Expression intensity|表情强度
+RESTART CAPTURE|重新采集
+FACE CAPTURE|面部采集
+The percentage shows capture progress. Camera frames and facial landmarks are processed locally and are not saved.|百分比表示采集进度。相机帧与面部关键点在本地处理，不会保存。
+FACE → IMAGE → ASSET|面部 → 图像 → 资产
+A contemporary portrait interface crops, measures and packages one likeness into an imagined commercial identity.|肖像界面对面容进行裁剪、测量与包装，生成一个虚构的商业身份。
+LOCAL FACE PRODUCT INPUT|面容输入
+SELECT A STYLE TO GENERATE|选择风格以生成
+Choose a fictional market framing|选择虚构的市场定位
+Corporate|商务
+Creative|创意
+Entertainment|娱乐
+Verified|认证
+01 / Corporate|01 / 商务
+02 / Creative|02 / 创意
+03 / Entertainment|03 / 娱乐
+04 / Verified|04 / 认证
+Authority, employability and institutional trust.|权威、就业潜力与机构信任。
+Authorship, distinction and collector appeal.|作者身份、独特性与收藏吸引力。
+Attention, circulation and commercial visibility.|关注、传播与商业曝光。
+Proof, access and the authority to be accepted.|身份凭证、访问权限与认可。
+SEND TO VALUE ROOM|前往评估室
+Send to Value Room|前往评估室
+Send to Auction|送往拍卖
+GENERATED FACE PRODUCT|已生成面部商品
+Your face has been transformed into a fictional market asset.|你的面容已转化为虚构的市场资产。
+THE VALUE IS CONSTRUCTED|价值是被构建的
+FACE VALUE IS BEING PRODUCED|正在生成面部价值
+Trust Index|信任指数
+Employability Rating|就业能力评分
+Attention Demand|关注需求
+Authority Signal|权威信号
+Access Value|访问价值
+Resale Potential|转售潜力
+FICTIONAL INTERFACE SCORE|虚构界面评分
+REVIEW THE COVENANT|查看授权条款
+AUTHORISATION OF LIKENESS|面容授权
+The document looks ceremonial. Its consequences are commercial.|这份文件充满仪式感。它的后果涉及商业用途。
+AI MODIFICATION|人工智能修改
+COMMERCIAL REUSE|商业再利用
+DERIVATIVE LIKENESS|衍生面容
+THIRD-PARTY TRANSFER|第三方转让
+DURATION|期限
+WITHDRAWAL|撤回
+PERMITTED|允许
+INDEFINITE|无限期
+RESTRICTED|受限
+This fictional covenant is a prompt to consider how consent can be made to look routine.|这份虚构协议邀请你思考，授权如何被包装成日常步骤。
+ACCEPT & ENTER AUCTION|接受并进入拍卖
+LOT 041 / HUMAN FACIAL LIKENESS|拍品 041 / 人类面容
+CONTINUE TO REFLECTION|继续前往反思室
+BIDS WAITING FOR VALUE INPUT|等待估值后开始竞价
+ARCHIVE STATUS: TRANSFERRED|档案状态：已转让
+VIEW THE FACE CASCADE|查看面容瀑布
+WHAT EXACTLY DID YOU SELL?|你究竟出售了什么？
+END OF EXCHANGE PATH|交易旅程结束
+START AGAIN|重新开始
+User testing questions|用户测试问题
+Asset|资产
+Final price|成交价
+Buyer|买家
+Status|状态
+Lot|拍品
+Licence|许可
+Source|来源
+Uncatalogued likeness|未编目的面容
+NFT Collectible Face|NFT 收藏面容
+Pixel Avatar Face|像素头像面容
+Corporate Likeness|商务面容
+Verified Likeness|认证面容
+Entertainment Likeness|娱乐面容
+Creative Likeness|创意面容
+Algorithm-Friendly Face|算法友好面容
+PLACEHOLDER FACE|面容占位图
+PIXEL FACE ASSET|像素面容资产
+RARE|稀有
+FICTIONAL FACE PRODUCT|虚构面部商品
+FACE EXCHANGE · A PRIVATE INVITATION|面部交易 · 私人邀请
+FACE EXCHANGE  ·  A PRIVATE INVITATION|面部交易 · 私人邀请
+The art of|价值的
+being valued.|艺术。
+The art of being valued|价值的艺术
+Offer your likeness|提交你的面容
+Discover its market life|探索它的市场命运
+Move at your own pace|按自己的节奏前行
+EXPLORE THE GALLERY|探索走廊
+BEGIN THE EXCHANGE|开始交易
+enter the market|进入大厅
+submit likeness|提交面容
+face to asset|面容成为资产
+fictional value|虚构价值
+licence terms|授权条款
+sale record|成交记录
+transformed likenesses|变形面容
+REFLECTION|反思
+After the sale|成交之后
+SYSTEM WAITING|系统等待中
+ENTRANCE GATE READY|大门已就绪
+ENTRANCE OPENING|大门开启中
+APPROACH FACE EXCHANGE ENTRANCE|请靠近面部交易大厅
+FULL SCREEN UNAVAILABLE IN THIS BROWSER|当前浏览器无法进入全屏
+FACE ARCHIVE COULD NOT BE SAVED|无法保存面容档案
+GENERATED FACE PRODUCT READY|面部商品已生成
+WINNING BID|最高成交出价
+SOLD · FICTIONAL AUCTION|已成交 · 虚构拍卖
+ENLARGED EYES|放大眼部
+DISPLACED|错位
+SWIRL|旋涡
+STRETCHED|拉伸
+Glitch|故障效果
+ASCII|字符图像
+Liquid|流体效果
+Ready. Start your camera or try the expression demo.|已就绪。开启相机或体验表情演示。
+Camera stopped. Your session stays private.|相机已关闭。当前会话保留在本地。
+Loading local face tracking…|正在加载本地面部追踪…
+Waiting for camera permission. Allow access in your browser, or cancel.|等待相机授权。请在浏览器中允许访问，或取消。
+Camera on. Face the camera briefly, then turn left, right, up and down.|相机已开启。请先正视相机，再向左、右、上、下转动面部。
+Camera paused while this page is hidden.|页面隐藏时相机已暂停。
+Live tracking. Your expressions are shaping the mask.|正在追踪。你的表情正在塑造面具。
+No face detected. Move into the camera view.|未检测到面部。请移入相机画面。
+Expression demo. Start your camera for live tracking.|表情演示中。开启相机可实时追踪。
+Ready. Camera is off.|已就绪。相机已关闭。
+Camera permission was declined. You can still try the demo.|相机权限被拒绝，你仍可以体验演示。
+Waiting to start the camera|等待开启摄像头
+Demo mode · Start the camera to capture|演示模式 · 开启摄像头开始采集
+No face detected. Please face the camera|未检测到脸部，请面向摄像头
+Face capture complete|脸部特征采集完成
+Capturing your face · Look straight ahead first|正在采集你的脸部 · 请先正视摄像头
+Capturing your face · Turn left|正在采集你的脸部 · 请向左转头
+Capturing your face · Turn right|正在采集你的脸部 · 请向右转头
+Capturing your face · Look up|正在采集你的脸部 · 请抬头
+Capturing your face · Look down|正在采集你的脸部 · 请低头
+Left|左
+Right|右
+Up|上
+Down|下
+Welcome to the Identity Asset Market. A ceremonial journey through the price of a likeness.|欢迎来到身份资产市场。这是一段探索面容价格的仪式旅程。
+Use your camera or choose a portrait. Your image stays in this browser.|使用相机或选择肖像。图片会保存至本项目的面容档案。
+Choose a style, explore its fictional value, and follow it through the auction.|选择风格，探索虚构价值，并观看它被拍卖。
+Scroll or use W / S in the gallery. Move your pointer to look around; select a nearby room to enter.|在走廊滚动鼠标或使用 W / S 移动。移动鼠标观察，选择附近房间进入。
+An artistic simulation. No real sale, payment or facial recognition.|艺术模拟体验。不涉及真实交易或付款。
+A ceremonial dashboard turns subjective market desire into an apparently objective decision. Every score and FVU here is fictional.|评估面板将主观的市场需求转化为看似客观的判断。这里的评分与面部价值单位均为虚构。
+FACE VALUE:|面部价值：
+SEAL|印章
+The face is displayed as a relic. Agents bid on future uses rather than the person.|面容被作为拍品展示。代理人竞拍它未来的使用权。
+FVU AGENT A|面部价值代理 A
+FVU AGENT B|面部价值代理 B
+FVU AGENT C|面部价值代理 C
+FVU AGENT D|面部价值代理 D
+FVU AGENT E|面部价值代理 E
+Employer Agent|雇主代理
+Platform Agent|平台代理
+Advertiser Agent|广告代理
+Verification Agent|认证代理
+Collector Agent|收藏代理
+Bids for employability, authority and professional trust.|为就业潜力、权威与职业信任出价。
+This face could perform well in a job market.|这张脸可能在就业市场表现出色。
+Bids for attention, visibility and engagement.|为关注、曝光与互动出价。
+This face could circulate well.|这张脸可能被广泛传播。
+Bids for trust, lifestyle signal and selling power.|为信任、生活方式与销售潜力出价。
+This face could sell aspiration.|这张脸可能售卖向往的生活。
+Bids for access, compliance and identity control.|为权限、合规与身份控制出价。
+This face could become proof.|这张脸可能成为凭证。
+Bids for rarity, resale potential and identity asset value.|为稀缺性、转售潜力与身份资产价值出价。
+This face could become collectible.|这张脸可能成为收藏品。
+The portrait is no longer presented as a person. It is retained as an asset, lot and licence record.|肖像已成为资产，保留在拍品与授权记录中。
+AFTER SALE: A LIKENESS CONTINUES|成交之后：面容仍在延续
+Once licensed, the face can acquire a digital life that no longer depends on its original owner.|一旦授权，面容就可能拥有不再依赖原主人的数字生命。
+ORIGINAL FACE|原始面容
+AI CHARACTER|人工智能角色
+ADVERTISEMENT|广告
+VIRTUAL INFLUENCER|虚拟网红
+GAME|游戏
+RESALE|转售
+TRAINING DATA|训练数据
+The asset persists. Can the person still withdraw?|资产持续存在。本人还能撤回吗？
+Your image?   /   Your likeness?   /   Your rights?   /   Your future control?|你的图像？ / 你的面容？ / 你的权利？ / 你未来的控制权？
+What do you think this project is joking about?|你觉得这个项目在讽刺什么？
+Did it feel like shopping for a face?|是否像在购买一张脸？
+Which part felt funny?|哪一部分让你觉得有趣？
+Which part felt uncomfortable?|哪一部分让你感到不适？
+Which agent felt most believable?|哪个代理最让你信服？
+Who do you think owns the value of a face?|你认为面容的价值属于谁？
+What part was confusing?|哪一部分让你困惑？
+Lot record|拍品记录
+Average face value|平均面部价值
+Archive status|档案状态
+PRIVATE LICENSING AGENT|私人授权代理
+DERIVATIVE / COMMERCIAL / TRANSFERABLE|可衍生 / 可商用 / 可转让
+TRANSFERRED / FICTIONAL RECORD|已转让 / 虚构记录
+Analysing market potential...|正在分析市场潜力…
+Applying identity filter...|正在应用身份滤镜…
+Generating face product...|正在生成面部商品…
+Assigning Face Value Unit...|正在分配面部价值单位…
+This is a fictional collectible style. No real NFT or blockchain transaction is created.|这是虚构的收藏风格，不会创建真实 NFT 或区块链交易。
+This is a fictional face product generated locally in this browser.|这是在浏览器本地生成的虚构面部商品。
+I   OFFER YOUR LIKENESS|I   提交你的面容
+II   DISCOVER ITS MARKET LIFE|II   探索它的市场命运
+III   MOVE AT YOUR OWN PACE|III   按自己的节奏前行
+Scroll / W / S to walk · select a nearby room to enter|滚动鼠标 / W / S 行走 · 选择附近房间进入
+An artistic simulation. No real sale or facial recognition.|艺术模拟体验。不涉及真实交易。
+SACRED COMMODITY EXCHANGE|神圣商品交易所
+I D E N T I T Y   A S S E T   M A R K E T|身份资产市场
+Capture progress|采集进度
+Turn your face left, right, up and down to complete the capture.|请左右上下转动面部，完成采集。
+PRODUCT ID|商品编号
+FVU VALUE|面部价值单位
+LOCAL CAMERA STREAM ACTIVE|本地相机已开启
+CAMERA FALLBACK AVAILABLE|可使用上传图片
+Archived face and sale price|面容档案与成交价
+Close face detail|关闭面容详情
+Selected archived face variation|选中的面容变形版本
+Submitted face preview|上传面容预览
+Submitted face with simulated generator overlay|上传面容与模拟生成效果
+Submitted face in exchange result|成交记录中的面容
+Face capture progress|面部采集进度
+Face capture completion|面部采集完成度
+Live face transformation|实时面容变换
+Room navigation|房间导航
+Corridor movement hints|走廊移动提示
+Unmarked doorway|无标识门口
+Facial Auction Hall guest code of conduct|面部拍卖大厅贵宾行为守则
+Interactive 3D Face Exchange corridor|交互式三维面部交易走廊
+Simplified Face Exchange corridor|简化面部交易走廊
+fictional nft style|虚构 NFT 风格
+collectible frame|收藏框
+rarity parody|稀缺性戏仿
+not a real nft|虚构 NFT
+pixel face asset|像素面容资产
+avatar shop|头像商店
+low resolution identity|低分辨率身份
+local canvas effect|本地画布效果
+employability|就业潜力
+professional trust|职业信任
+corporate fit|商务适配
+market-ready|适合市场
+official identity|官方身份
+verification value|认证价值
+access control|访问控制
+proof signal|凭证信号
+audience-ready|适合受众
+visibility value|曝光价值
+engagement signal|互动信号
+attention asset|关注资产
+status signal|地位信号
+premium branding|高端品牌
+aspiration value|向往价值
+collector value|收藏价值
+trend fit|趋势适配
+machine-readable|机器可读
+platform growth|平台增长
+recommendation-ready|适合推荐
+Face Exchange Lot Archive|面部交易拍品档案
+GENERATE FACE PRODUCT|生成面部商品
+FACE VALUE RISING|面部价值上升中
+AGENT INTEREST DETECTED|代理人表示兴趣
+NEW BID RECEIVED|收到新出价
+CORRIDOR NAVIGATION UNAVAILABLE|走廊导航暂不可用
+
+Standard actress face|女演员标准脸|Standard actress face
+The standard you in everyone’s eyes|大家眼中标准的你|The standard you in everyone’s eyes
+
+Dear guest, please upload your own face and await our appraisal.|贵宾请上传自己的脸，等待我们的鉴定|Dear guest, please upload your own face and await our appraisal.
+
+PAUSE AIR PARTICLES|暂停空气粒子|Pause floating particles
+RESUME AIR PARTICLES|继续空气粒子|Resume floating particles
+# Portrait processing and mirrored capture
+Face Swap Room|面容加工室|Portrait Processing Room
+Portrait Processing Room|面容加工室|Portrait Processing Room
+See how your likeness can acquire a new use.|看看你的面容如何被赋予新的用途。
+What can your face become?|你的脸充满可能|Your face is full of possibilities
+01 · Your original|01 · 你的原图
+02 · Prepared for sale|02 · 加工为拍品
+03 · A new use|03 · 新的用途
+Your uploaded face|你上传的面容
+Your original uploaded portrait|你上传的原始肖像
+Upload a portrait in the Inspection Room, or capture your face here.|请先在检验室上传照片，也可以在这里采集面容。
+CAPTURE YOUR FACE|采集面容
+What happens to your face next?|接下来，你的面容会怎样？
+Your face is waiting to be processed.|你的面容等待加工。
+Your cropped portrait prepared as a simulated lot|被裁切为模拟拍品的面容
+FICTIONAL ADVERT|虚构广告
+Your portrait in a fictional advert|虚构广告中的你的面容
+A face you|一张让你
+can trust.|信任的脸。
+Your likeness. Someone else’s message.|你的面容，别人的说辞。
+You uploaded a photograph. What could someone make it say?|你上传了一张照片。别人会让它替自己说什么？
+Your face has been cropped, numbered and prepared for sale.|你的面容已被裁切、编号，准备出售。
+It is still your face. But did you agree to appear in this advert?|这还是你的脸。但这是你同意出演的广告吗？
+A portrait becomes a lot.|肖像成为拍品。
+A face becomes an endorsement.|面容成为代言。
+PREPARE MY PORTRAIT|开始加工面容
+PREVIEW A COMMERCIAL USE|查看商业使用预览
+This is a local simulation. This preview is not a real advert or an endorsement.|以上过程在本地模拟，预览不代表真实广告或代言。
+The portrait could not be opened. Please upload it again.|无法打开照片，请重新上传。
+PORTRAIT PREPARED FOR SIMULATED SALE|面容已准备用于模拟拍卖
+Mirrored camera preview|镜像相机预览
+Face the camera and hold still for a moment.|请正对相机，保持片刻。
+Face capture progress|面容采集进度
+CANCEL CAPTURE|取消采集
+Allow camera access to capture your face.|请允许使用相机，以便采集面容。
+Camera permission was declined. You can upload a portrait in the Inspection Room.|未获得相机权限，你仍可以在检验室上传照片。
+The camera could not start. Please retry or upload a portrait in the Inspection Room.|相机未能启动，请重试或在检验室上传照片。
+Hold still. Capturing your face…|请保持片刻，正在采集面容……
+Move your face into the centre of the camera view.|请将面容移到相机画面中央。
+Face tracking stopped. Please try again.|面容识别已停止，请重试。
+
+Start with your own face.|先从你自己的面容开始。
+
+Your image is ready. It is saved only in this browser on your device.|你的图片已准备好，只保存在你当前设备的浏览器里。
+The perfect worker|完美工作者
+XXX, your most trusted and reliable choice.|XXX你最值得信赖的可靠的
+
+# November 3 tutorial refinements
+AI imagines a role|AI 想象中的角色
+AI imagines an actress|AI 想象中的女演员
+These portraits were generated from role prompts. They show how AI pictures a role, including its visual stereotypes. Appearance does not tell us a person’s job, character or intentions.|这些肖像由角色提示词生成，呈现了 AI 对角色的想象，也包含它的视觉刻板印象。面容不能说明一个人的职业、性格或意图。
+The bidding has ended. Follow your face through its sale record and copies, then visit Reflection.|竞价结束了。接着查看你的成交记录和面容副本，再去反思室看看。
+View your sale record|查看你的成交记录
+The sale is recorded. See what happens to the copies.|成交已记录。去看看那些副本会怎样。
+There is more after the archive. What control would you want to keep?|档案之后还有内容。你希望保留哪些控制权？
+Follow the copies →|跟随面容副本 →
+Continue to Reflection →|继续前往反思室 →
+Read the notice board|阅读公告栏
+View a role portrait|查看角色肖像
+View an AI role portrait|查看 AI 角色肖像
+View the catalogue|查看图录
+Watch the video|观看视频
+
+Standardised Faces|标准化的面孔
+
+Your Face Value|你的面部价值
+Congratulations! Your face is worth a great deal.|恭喜你！你的面容价值非常可观
+A good price for your face can attract more buyers.|一个好的脸部价格可以让你获得更多的买家青睐
+GO TO THE AUCTION HALL|前往拍卖场
+
+Congratulations, dear guest!|恭喜你！贵宾
+The bidding is over. Your face has been sold. Congratulations!|竞拍已经结束，你的面部被成功拍出，祝贺
+
+The house standard|拍卖行的面孔标准
+Reference band 65–85 · Scale 0–100|标准区间 65–85 · 评分范围 0–100
+Fictional scores and standards. No facial analysis is performed.|评分和标准均为虚构，不进行真实面部分析。

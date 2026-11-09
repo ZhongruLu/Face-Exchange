@@ -1,0 +1,5 @@
+/* Self-hosted Google Fonts. SIL Open Font License files are kept alongside the fonts. */
+@font-face { font-family: 'Bodoni Moda'; src: url('./bodoni-moda-roman.ttf') format('truetype'); font-style: normal; font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'Bodoni Moda'; src: url('./bodoni-moda-italic.ttf') format('truetype'); font-style: italic; font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('./newsreader-roman.ttf') format('truetype'); font-style: normal; font-weight: 200 800; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('./newsreader-italic.ttf') format('truetype'); font-style: italic; font-weight: 200 800; font-display: swap; }

@@ -1,0 +1,162 @@
+[
+  {
+    "id": "FX-N01",
+    "topic": "Likeness rights",
+    "zhTopic": "肖像权",
+    "kind": "Court report",
+    "zhKind": "法院案例",
+    "published": "2026-03-20",
+    "publisher": "北京互联网法院 · 澎湃号政务 / Beijing Internet Court via The Paper",
+    "url": "https://www.thepaper.cn/newsDetail_forward_32799628",
+    "originalTitle": "e案e审丨短剧角色AI换脸“神似”知名演员，是偶然“撞脸”还是故意侵权？",
+    "byline": "北京互联网法院；供稿：叶含妍、何南骏",
+    "headline": "A familiar face. No permission.",
+    "zhHeadline": "短剧里出现了她的脸，\n她却没有参演",
+    "deck": "A court found that a short drama’s producer and distributor infringed an actor’s likeness rights.",
+    "zhDeck": "北京互联网法院认定，短剧制作方与播出方均侵害了演员的肖像权。",
+    "sections": [
+      {
+        "heading": "Recognisable after a swap",
+        "zhHeading": "换脸之后，仍然可识别",
+        "text": "The producer argued that AI had coincidentally created a similar face. The court rejected that account and found the actor recognisable in two clips.",
+        "zhText": "制作方辩称，AI生成的形象只是偶然“撞脸”。法院未采信这一解释，认定两个片段中的形象能够被公众识别为该演员。"
+      },
+      {
+        "heading": "Two separate permissions",
+        "zhHeading": "两种权利，分别授权",
+        "text": "The distributor had a copyright licence for the drama. That did not clear the actor’s likeness rights. Both companies were ordered to apologise and pay damages; neither appealed.",
+        "zhText": "播出方取得了短剧的著作权许可，但这不能替代演员的肖像授权。两家公司分别被判致歉并赔偿，双方均未上诉。"
+      }
+    ],
+    "fact": "2",
+    "factLabel": "companies held liable in two related cases",
+    "zhFactLabel": "家公司在关联案件中被认定侵权",
+    "question": "Who agreed to this appearance?",
+    "zhQuestion": "这个新角色，经过谁的同意？",
+    "graphic": "rights",
+    "checked": "2026-11-02"
+  },
+  {
+    "id": "FX-N02",
+    "topic": "The licensing market",
+    "zhTopic": "授权市场",
+    "kind": "Reported investigation",
+    "zhKind": "媒体报道",
+    "published": "2026-07-27",
+    "publisher": "Rest of World",
+    "url": "https://restofworld.org/2026/china-ai-microdramas-face-licensing/zh/",
+    "englishUrl": "https://restofworld.org/2026/china-ai-microdramas-face-licensing/",
+    "originalTitle": "In China, people are renting out their faces to AI",
+    "byline": "Kinling Lo & Viola Zhou",
+    "headline": "Your face, available for licence.",
+    "zhHeadline": "你的脸，\n也能成为授权素材",
+    "deck": "Rest of World reports on Chinese platforms licensing likenesses for AI dramas, games and advertising.",
+    "zhDeck": "Rest of World报道，中国平台正撮合肖像授权，用于AI短剧、游戏和广告。",
+    "sections": [
+      {
+        "heading": "A catalogue of people",
+        "zhHeading": "面孔进入素材目录",
+        "text": "Producers can browse faces and agree permitted uses. ActID told reporters it charged 99–500 yuan per episode and took a 10% commission.",
+        "zhText": "制作方可以浏览面孔、约定用途。ActID向记者表示，每集授权费为99至500元，平台抽成10%。"
+      },
+      {
+        "heading": "Control after upload",
+        "zhHeading": "上传之后，谁能控制",
+        "text": "Lawyer Yile Deng warned that vague terms can leave people unsure who will use their likeness and for what. Licensing platforms cannot remove every risk of reuse or misuse.",
+        "zhText": "律师邓轶乐提醒，模糊的条款会让授权人无法确定最终使用者和用途。授权平台也无法消除全部二次使用及滥用风险。"
+      }
+    ],
+    "fact": "¥99–500",
+    "factLabel": "per episode, according to ActID in this report",
+    "zhFactLabel": "每集授权费，来自报道中的ActID说法",
+    "question": "Does a fee make the future use clear?",
+    "zhQuestion": "收到授权费，就知道脸会被用到哪里了吗？",
+    "graphic": "licence",
+    "checked": "2026-11-02"
+  },
+  {
+    "id": "FX-N03",
+    "topic": "The price of a face",
+    "zhTopic": "面孔定价",
+    "kind": "Reported platform account",
+    "zhKind": "平台说法报道",
+    "published": "2026-08-26",
+    "publisher": "每日经济新闻，经极目新闻转载 / National Business Daily via Jimu News",
+    "url": "https://www.ctdsb.net/c1716_202608/2841647.html",
+    "originalTitle": "AI时代，真人脸更值钱了！一位银行职员3天“卖脸”7次，收入2500元！交易平台谈赚钱逻辑：AI脸已审美疲劳，素人脸可能更有机会",
+    "byline": "每日经济新闻；极目新闻转载",
+    "headline": "One face. Seven licences.",
+    "zhHeadline": "同一张脸，\n三天被授权七次",
+    "deck": "A platform founder described a bank employee earning nearly 2,500 yuan after commission.",
+    "zhDeck": "报道引述平台创始人的案例：一名银行职员三天内授权七次，扣除抽成后收入近2500元。",
+    "sections": [
+      {
+        "heading": "A reported example",
+        "zhHeading": "个案收入，不是收益承诺",
+        "text": "New Claw’s founder said one company licensed the face seven times, at 500 yuan each. These are platform statements reported by the newspaper, not guaranteed earnings.",
+        "zhText": "新爪创始人称，同一家公司七次购买该面孔的授权，每次500元。这是报道中的平台说法，不是普通用户收入或收益保证。"
+      },
+      {
+        "heading": "A project, not a buyout",
+        "zhHeading": "按项目授权，并非买断",
+        "text": "The report describes project-based licensing and a 30% platform fee. Lawyer Wang Guangying cautioned that permission for source material does not automatically permit AI training.",
+        "zhText": "报道介绍了按项目授权与30%的平台服务费。律师王光英提醒，素材授权不等于训练授权。用于一部短剧，也不代表可以继续用于其他作品。"
+      }
+    ],
+    "fact": "7",
+    "factLabel": "licences in three days, according to the platform founder",
+    "zhFactLabel": "次授权／三天，来自平台创始人的个案说法",
+    "question": "How many new uses can one face acquire?",
+    "zhQuestion": "同一张脸，可以被分成多少次用途？",
+    "graphic": "reuse",
+    "checked": "2026-11-02"
+  },
+  {
+    "id": "FX-N04",
+    "topic": "Synthetic trust",
+    "zhTopic": "合成面孔与信任",
+    "kind": "Research report",
+    "zhKind": "研究报道",
+    "published": "2022-03-15",
+    "publisher": "World Economic Forum · Victoria Masterson",
+    "url": "https://cn.weforum.org/stories/emerging-technologies/ai-fake-faces-more-trustworthy",
+    "verifiedUrl": "https://www.weforum.org/stories/emerging-technologies/ai-fake-faces-more-trustworthy",
+    "originalTitle": "People trust AI fake faces more than real ones, according to a new study",
+    "byline": "Victoria Masterson；研究：Sophie Nightingale & Hany Farid",
+    "headline": "A face can look trustworthy. Is it?",
+    "zhHeadline": "看起来值得信任，\n就真的可信吗？",
+    "deck": "A 2022 study found higher average trustworthiness ratings for its AI-generated faces.",
+    "zhDeck": "一项2022年的研究发现，实验所用AI合成人脸获得了更高的平均可信度评分。",
+    "sections": [
+      {
+        "heading": "An experimental result",
+        "zhHeading": "评分来自实验",
+        "text": "The Forum reported a 7.7% higher average rating for synthetic faces in research by Sophie Nightingale and Hany Farid, published in PNAS.",
+        "zhText": "世界经济论坛介绍，Nightingale与Farid发表于PNAS的研究中，合成人脸的平均可信度评分高出7.7%。"
+      },
+      {
+        "heading": "Appearance is not evidence",
+        "zhHeading": "外表不能证明可信",
+        "text": "This measures judgements of images, not actual honesty, identity or commercial value. The result concerns the study’s images and participants, not every AI face.",
+        "zhText": "这测量的是人们对图像的判断，不能证明实际诚实程度、身份真实性或商业价值。结论限于研究中的图像与受试者，不能推广到所有AI面孔。"
+      }
+    ],
+    "fact": "+7.7%",
+    "factLabel": "average perceived trustworthiness in this experiment",
+    "zhFactLabel": "实验中的平均感知可信度评分差异",
+    "question": "What makes a face feel convincing?",
+    "zhQuestion": "什么让一张脸显得可信？",
+    "graphic": "trust",
+    "extraSources": [
+      {
+        "label": "Lancaster University · research announcement",
+        "url": "https://www.lancaster.ac.uk/news/ai-generated-faces-are-more-trustworthy-than-real-faces-say-researchers-who-warn-of-deep-fakes"
+      },
+      {
+        "label": "PNAS · original study / 原始研究",
+        "url": "https://doi.org/10.1073/pnas.2120481119"
+      }
+    ],
+    "checked": "2026-11-02"
+  }
+]

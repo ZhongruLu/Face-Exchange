@@ -1,6 +1,12 @@
+import { initLanguage } from './language.js';
+import {recordFace,recordSale} from './faceArchive.js';
 import { initThreeCorridor } from './threeCorridor.js';
+import {HOUSE_STANDARD_KEYS,HOUSE_STANDARD_BAND,VIRTUAL_SCORE_GROUPS,VIRTUAL_SCORE_METRICS,createVirtualScores,averageVirtualScore,virtualAgentBids} from './fictionalValuation.js';
+import {createRolePortrait,ROLE_STYLES} from './rolePortrait.js';
+import {createFaceReuse} from './faceReuse.js';
 
 const app = document.querySelector('[data-app]');
+initLanguage(app);
 const corridor = document.querySelector('[data-corridor]');
 const threeMount = document.querySelector('[data-three-corridor]');
 const fallbackCorridor = document.querySelector('[data-fallback-corridor]');
@@ -12,6 +18,33 @@ const previousDoorButton = document.querySelector('[data-prev-door]');
 const nextDoorButton = document.querySelector('[data-next-door]');
 const enterActiveButton = document.querySelector('[data-enter-active]');
 const enterEntranceButton = document.querySelector('[data-enter-entrance]');
+const fullscreenButton = document.querySelector('[data-fullscreen-toggle]');
+const fullscreenLabel = document.querySelector('[data-fullscreen-label]');
+initSceneAudio(app);
+const spatialHud = document.querySelector('[data-spatial-hud]');
+const roomExhibitButton = document.querySelector('[data-room-exhibit]');
+const roomFeedback = document.querySelector('[data-room-feedback]');
+
+if (fullscreenButton && document.fullscreenEnabled && app.requestFullscreen) {
+  fullscreenButton.hidden = false;
+  const syncFullscreen = () => {
+    const isFullscreen = document.fullscreenElement === app;
+    fullscreenButton.setAttribute('aria-pressed', String(isFullscreen));
+    fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Exit full screen' : 'Enter full screen');
+    fullscreenButton.title = isFullscreen ? 'Exit full screen' : 'Enter full screen';
+    fullscreenLabel.textContent = isFullscreen ? 'EXIT FULL SCREEN' : 'FULL SCREEN';
+  };
+  fullscreenButton.addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement === app) await document.exitFullscreen();
+      else await app.requestFullscreen();
+    } catch (error) {
+      setStatus('FULL SCREEN UNAVAILABLE IN THIS BROWSER');
+    }
+  });
+  document.addEventListener('fullscreenchange', syncFullscreen);
+  syncFullscreen();
+}
 
 const video = document.querySelector('#camera-video');
 const canvas = document.querySelector('#capture-canvas');
@@ -23,81 +56,104 @@ const packagePreview = document.querySelector('#package-preview');
 const resultPreview = document.querySelector('#result-preview');
 const emptyPreview = document.querySelector('#empty-preview');
 const cameraMessage = document.querySelector('#camera-message');
-const captureNext = document.querySelector('#capture-next');
 const packageNext = document.querySelector('#package-next');
 const metadataTags = document.querySelector('#metadata-tags');
+const generatorStatus = document.querySelector('#generator-status');
+const generatorPlaceholder = document.querySelector('#generator-placeholder');
+const generatedResult = document.querySelector('#generated-result');
 const valueGrid = document.querySelector('#value-grid');
-const valueComment = document.querySelector('#value-comment');
 const auctionMessage = document.querySelector('#auction-message');
-const costMessage = document.querySelector('#cost-message');
 const resultPanel = document.querySelector('#result-panel');
+const fvuValue = document.querySelector('#fvu-value');
 const startAgainButton = document.querySelector('#start-again');
-const reflectionResponse = document.querySelector('#reflection-response');
 
-const roomOrder = ['enterRoom', 'submitRoom', 'classifyRoom', 'valueRoom', 'auctionRoom', 'costRoom', 'reflectRoom'];
+const roomOrder = ['enterRoom', 'submitRoom', 'classifyRoom', 'valueRoom', 'termsRoom', 'soldRoom', 'auctionRoom', 'reflectRoom', 'afterlifeRoom'];
 
 const stations = [
-  { view: 'enterRoom', label: '01 INTRO' },
-  { view: 'submitRoom', label: '02 SUBMIT' },
-  { view: 'classifyRoom', label: '03 CLASSIFY' },
-  { view: 'valueRoom', label: '04 VALUE' },
-  { view: 'auctionRoom', label: '05 AUCTION' },
-  { view: 'costRoom', label: '06 COST' },
-  { view: 'reflectRoom', label: '07 REFLECT' },
+  { view: 'enterRoom', label: 'Introduction' },
+  { view: 'submitRoom', label: 'Inspection Room' },
+  { view: 'classifyRoom', label: 'Face Swap Room' },
+  { view: 'valueRoom', label: 'Valuation Room' },
+  { view: 'termsRoom', label: 'Auction Hall' },
+  { view: 'soldRoom', label: 'Sale' },
+  { view: 'auctionRoom', label: 'Honour' },
+  { view: 'reflectRoom', label: 'Reflection' },
+  { view: 'afterlifeRoom', label: '', interactive: false },
 ];
 
 const roomLabels = {
   corridor: 'CORRIDOR HUB',
-  enterRoom: 'ROOM 01 ACTIVE',
+  enterRoom: 'INTRODUCTION ACTIVE',
   submitRoom: 'SUBMIT ROOM ACTIVE',
   classifyRoom: 'CLASSIFY ROOM ACTIVE',
   valueRoom: 'VALUE ROOM ACTIVE',
+  termsRoom: 'COVENANT ROOM ACTIVE',
   auctionRoom: 'AUCTION ROOM ACTIVE',
-  costRoom: 'COST ROOM ACTIVE',
+  soldRoom: 'SALE RECORD ACTIVE',
+  afterlifeRoom: 'AFTERLIFE ROOM ACTIVE',
   reflectRoom: 'REFLECT ROOM ACTIVE',
 };
 
 const modeData = {
-  corporate: {
-    label: 'Job Interview Face',
-    tags: ['employability', 'professional trust', 'corporate fit', 'market-ready', 'work signal'],
-    values: { 'Trust Index': 72, 'Employability Rating': 88, 'Attention Demand': 38, 'Authority Signal': 78, 'Access Value': 62, 'Resale Potential': 42 },
+  composite:{label:'Assembled Face',tags:['experimental composite','selected by visitor'],fvu:150},
+  nftCollectible: {
+    label: 'NFT Collectible Face',
+    description: 'Turn your face into a collectible digital asset.',
+    buttonLabel: 'Create Collectible Face',
+    tags: ['fictional nft style', 'collectible frame', 'rarity parody', 'not a real nft'],
+    fvu: 226,
+    collection: 'Face Exchange Lot Archive',
   },
-  creative: {
-    label: 'Trustworthy Service Face',
-    tags: ['care signal', 'customer support', 'public trust', 'service-ready', 'confidence value'],
-    values: { 'Trust Index': 91, 'Employability Rating': 70, 'Attention Demand': 45, 'Authority Signal': 68, 'Access Value': 76, 'Resale Potential': 48 },
+  pixelAvatar: {
+    label: 'Pixel Avatar Face',
+    description: 'Convert your face into a pixel-style avatar.',
+    buttonLabel: 'Create Pixel Face',
+    tags: ['pixel face asset', 'avatar shop', 'low resolution identity', 'local canvas effect'],
+    fvu: 148,
   },
-  livestream: {
-    label: 'Algorithm-Friendly Face',
-    tags: ['trend fit', 'machine-readable', 'visibility signal', 'platform growth', 'recommendation-ready'],
-    values: { 'Trust Index': 54, 'Employability Rating': 58, 'Attention Demand': 82, 'Authority Signal': 34, 'Access Value': 55, 'Resale Potential': 74 },
+  jobInterview: {
+    label: 'Staff Portrait',
+    description: 'A work uniform, shirt collar and staff badge.',
+    buttonLabel: 'Generate Face Product',
+    tags: ['work uniform', 'staff badge', 'staff portrait'],
+    fvu: 118,
   },
-  verified: {
-    label: 'Passport Face',
-    tags: ['official identity', 'verification value', 'access control', 'compliance-ready', 'proof signal'],
-    values: { 'Trust Index': 86, 'Employability Rating': 64, 'Attention Demand': 30, 'Authority Signal': 82, 'Access Value': 94, 'Resale Potential': 36 },
+  passport: {
+    label: 'Designer Portrait',
+    description: 'A dark turtleneck, glasses and a sketchbook.',
+    buttonLabel: 'Generate Face Product',
+    tags: ['designer', 'glasses', 'sketchbook'],
+    fvu: 142,
   },
   influencer: {
-    label: 'Influencer Face',
-    tags: ['audience-ready', 'visibility value', 'engagement signal', 'platform circulation', 'attention asset'],
-    values: { 'Trust Index': 60, 'Employability Rating': 52, 'Attention Demand': 96, 'Authority Signal': 48, 'Access Value': 66, 'Resale Potential': 88 },
+    label: 'Singer Portrait',
+    description: 'A stage jacket and a handheld microphone.',
+    buttonLabel: 'Generate Face Product',
+    tags: ['stage jacket', 'microphone', 'singer'],
+    fvu: 207,
   },
-  premium: {
-    label: 'Luxury Identity Face',
-    tags: ['status signal', 'premium branding', 'aspiration value', 'exclusive access', 'collector value'],
-    values: { 'Trust Index': 74, 'Employability Rating': 78, 'Attention Demand': 76, 'Authority Signal': 86, 'Access Value': 84, 'Resale Potential': 92 },
+  luxury: {
+    label: 'Artist Portrait',
+    description: 'Long hair, an artist’s smock and paintbrushes.',
+    buttonLabel: 'Generate Face Product',
+    tags: ['long hair', 'artist smock', 'paintbrushes'],
+    fvu: 260,
+  },
+  algorithm: {
+    label: 'Algorithm-Friendly Face',
+    description: 'Adjusted for visibility and machine-readable appeal.',
+    buttonLabel: 'Generate Face Product',
+    tags: ['trend fit', 'machine-readable', 'platform growth', 'recommendation-ready'],
+    fvu: 184,
   },
 };
 
-const valueComments = {
-  'Trust Index': 'Market confidence adjusted.',
-  'Employability Rating': 'Professional identity score increased.',
-  'Attention Demand': 'High attention potential detected.',
-  'Authority Signal': 'Authority signal packaged for resale.',
-  'Access Value': 'Access value converted into market demand.',
-  'Resale Potential': 'Face value is being produced.',
-};
+const generatedMessages = [
+  'Analysing market potential...',
+  'Applying identity filter...',
+  'Generating face product...',
+  'Assigning Face Value Unit...',
+];
 
 const state = {
   currentView: 'corridor',
@@ -106,14 +162,34 @@ const state = {
   lastDoor: 'enterRoom',
   imageUrl: '',
   mode: '',
+  generatedImageUrl: '',
+  generatedProductId: '',
+  generatedFvu: 0,
   values: {},
-  hiddenCosts: [],
   stream: null,
   valuesRendered: false,
+  pendingCaptureArchive: false,
+  auctionSale: null,
 };
 
 let wheelLocked = false;
 let corridorController = null;
+let generationToken = 0;
+const faceProcessing=createFaceReuse(document.querySelector('[data-face-reuse]'),{
+  onDirty(){generationToken++;packageNext.disabled=true;},
+  onApply({url,asset}){
+    if(state.pendingCaptureArchive&&state.imageUrl){
+      state.pendingCaptureArchive=false;
+      recordFace(state.imageUrl).catch(()=>{state.pendingCaptureArchive=true;setStatus('FACE ARCHIVE COULD NOT BE SAVED');});
+    }
+    generationToken++;state.mode='reuse';state.generatedImageUrl=url;state.generatedProductId=asset;
+    state.values=createVirtualScores();state.valuesRendered=false;state.generatedFvu=getAverageValue();
+    state.auctionSale=null;updateSaleStamp();
+    packagePreview.src=url;packagePreview.hidden=false;resultPreview.src=url;resultPreview.hidden=false;
+    corridorController?.setPortrait?.(url);packageNext.disabled=false;
+    setStatus('PORTRAIT PREPARED FOR SIMULATED SALE');
+  },
+});
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -151,6 +227,8 @@ function stopCamera() {
   state.stream.getTracks().forEach((track) => track.stop());
   state.stream = null;
   video.hidden = true;
+  facePreview.hidden = !state.imageUrl;
+  emptyPreview.hidden = !!state.imageUrl;
   takePhotoButton.hidden = true;
 }
 
@@ -163,12 +241,12 @@ function setInert(element, inert) {
 function prepareRoom(view) {
   if (view !== 'submitRoom') stopCamera();
   if (view === 'valueRoom' && !state.valuesRendered) {
-    if (!Object.keys(state.values).length) state.values = { 'Trust Index': 50, 'Employability Rating': 50, 'Attention Demand': 50, 'Authority Signal': 50, 'Access Value': 50, 'Resale Potential': 50 };
+    ensureVirtualScores();
     renderValues();
     state.valuesRendered = true;
   }
   if (view === 'auctionRoom') renderAuction();
-  if (view === 'reflectRoom') renderResult();
+  if (view === 'soldRoom') renderResult();
 }
 
 function getStationIndex(view) {
@@ -182,10 +260,15 @@ function setActiveStation(index, focusDoor = false, source = 'app') {
   state.lastDoor = activeStation.view;
   app.style.setProperty('--active-station', String(nextIndex));
   app.dataset.activeStation = String(nextIndex);
+  document.querySelectorAll('[data-research-stations]').forEach(label => {
+    const visible=label.dataset.researchStations.split(',').includes(String(nextIndex));
+    label.hidden=!visible;
+    if(!visible)label.open=false;
+  });
   stationReadout.textContent = activeStation.label;
   previousDoorButton.disabled = !hasEnteredCorridor() || nextIndex === 0;
   nextDoorButton.disabled = !hasEnteredCorridor() || nextIndex === stations.length - 1;
-  enterActiveButton.disabled = !hasEnteredCorridor();
+  enterActiveButton.disabled = !hasEnteredCorridor() || activeStation.interactive === false;
 
   if (source !== 'three' && corridorController && !corridorController.isFallback) {
     corridorController.setActiveStation(nextIndex, false);
@@ -219,14 +302,38 @@ function moveStation(direction) {
 
 function setCurrentView(view, focusRoom = true) {
   state.currentView = view;
+  if(view!=='termsRoom')document.querySelector('[data-auction-guide]').hidden=true;
   app.dataset.view = view;
-  setInert(corridor, view !== 'corridor');
+  const onward=document.querySelector('[data-journey-next]');
+  onward.hidden=!['soldRoom','auctionRoom'].includes(view);
+  onward.dataset.destination=view==='soldRoom'?'auctionRoom':'reflectRoom';
+  onward.querySelector('[data-journey-note]').textContent=view==='soldRoom'?'The sale is recorded. See what happens to the copies.':'There is more after the archive. What control would you want to keep?';
+  onward.querySelector('button').textContent=view==='soldRoom'?'Follow the copies →':'Continue to Reflection →';
+  const spatialRoom = Boolean(corridorController?.isSpatial && view !== 'corridor');
+  app.classList.toggle('is-spatial-room', spatialRoom);
+  threeMount.setAttribute('aria-label', spatialRoom ? `Interactive 3D ${corridorController.roomDesigns[getStationIndex(view)].name} room` : 'Interactive 3D Face Exchange corridor');
+  setInert(corridor, view !== 'corridor' && !spatialRoom);
+  spatialHud.hidden = !spatialRoom;
+  if (spatialRoom) {
+    const index = getStationIndex(view);
+    const design = corridorController.roomDesigns[index];
+    document.querySelector('[data-spatial-room-number]').textContent = 'FACIAL AUCTION HALL';
+    document.querySelector('[data-spatial-room-title]').textContent = design.name;
+    document.querySelector('[data-spatial-room-description]').textContent = design.subtitle;
+    roomExhibitButton.textContent = design.action;
+    roomExhibitButton.hidden = true;
+    if(index===6)roomExhibitButton.textContent='PAUSE FLOATING PHOTOS';
+    roomExhibitButton.setAttribute('aria-pressed', 'false');
+    roomFeedback.textContent = index===6 ? 'Drag to rotate · Scroll to zoom · Click a photo for details · Esc to return' : [4,6,7].includes(index) ? 'Move your pointer or use arrows to look · Esc to return' : 'W / S to walk · A / D to step sideways · arrows to look · Esc to return';
+    if (index === 4) corridorController.setAuctionBase(state.generatedFvu || getAverageValue());
+    corridorController.setPortrait(index === 4 && !['composite','reuse'].includes(state.mode) ? state.imageUrl : state.generatedImageUrl || state.imageUrl);
+  }
 
   rooms.forEach((room) => {
     const isActive = room.dataset.room === view;
     room.classList.toggle('is-active', isActive);
     setInert(room, !isActive);
-    if (isActive && focusRoom) window.setTimeout(() => room.focus({ preventScroll: true }), 360);
+    if (isActive && focusRoom && !spatialRoom) window.setTimeout(() => room.focus({ preventScroll: true }), 360);
   });
 
   doors.forEach((door) => {
@@ -238,7 +345,7 @@ function setCurrentView(view, focusRoom = true) {
   prepareRoom(view);
   setStatus(roomLabels[view] || 'SYSTEM ACTIVE');
   if (corridorController && !corridorController.isFallback) {
-    corridorController.setEnabled(view === 'corridor');
+    corridorController.setEnabled(view === 'corridor' || spatialRoom);
   }
 }
 
@@ -281,6 +388,10 @@ function enterActiveDoor() {
 
 function returnToCorridor() {
   stopCamera();
+  if (corridorController?.isSpatial && corridorController.getRoomIndex() >= 0) {
+    corridorController.exitRoom();
+    return;
+  }
   setCurrentView('corridor', false);
   setActiveStation(getStationIndex(state.lastDoor), false);
   if (corridorController && !corridorController.isFallback) {
@@ -293,6 +404,11 @@ function returnToCorridor() {
 }
 
 function continueToRoom(view) {
+  if (corridorController?.isSpatial && corridorController.getRoomIndex() >= 0) {
+    stopCamera();
+    corridorController.travelToRoom(getStationIndex(view));
+    return;
+  }
   state.lastDoor = view;
   stopCamera();
   setCurrentView('corridor', false);
@@ -302,15 +418,236 @@ function continueToRoom(view) {
   }
 }
 
-function setImage(url) {
+function setImage(url,{archive=true}={}) {
   state.imageUrl = url;
+  state.mode='';state.generatedImageUrl='';state.generatedProductId='';state.generatedFvu=0;
+  faceProcessing.setReference(url);
+  state.auctionSale=null;
+  updateSaleStamp();
+  state.values = {};
+  state.valuesRendered = false;
+  state.pendingCaptureArchive=!archive;
+  if(archive)recordFace(url).catch(()=>setStatus('FACE ARCHIVE COULD NOT BE SAVED'));
+  corridorController?.setPortrait?.(url);
   [facePreview, packagePreview, resultPreview].forEach((image) => {
     image.src = url;
     image.hidden = false;
   });
+  if (generatorPlaceholder) generatorPlaceholder.hidden = true;
   emptyPreview.hidden = true;
-  captureNext.disabled = false;
   setStatus('FACE RECEIVED LOCALLY');
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+function createPlaceholderFace() {
+  const placeholder = document.createElement('canvas');
+  placeholder.width = 512;
+  placeholder.height = 512;
+  const context = placeholder.getContext('2d');
+  const gradient = context.createLinearGradient(0, 0, 512, 512);
+  gradient.addColorStop(0, '#17221d');
+  gradient.addColorStop(1, '#0b0f0d');
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, 512, 512);
+  context.strokeStyle = 'rgba(156, 201, 164, 0.56)';
+  context.lineWidth = 4;
+  context.beginPath();
+  context.ellipse(256, 238, 116, 154, 0, 0, Math.PI * 2);
+  context.stroke();
+  context.fillStyle = 'rgba(156, 201, 164, 0.12)';
+  context.beginPath();
+  context.ellipse(256, 238, 106, 144, 0, 0, Math.PI * 2);
+  context.fill();
+  context.strokeStyle = 'rgba(218, 229, 220, 0.42)';
+  context.lineWidth = 3;
+  context.beginPath();
+  context.moveTo(210, 224);
+  context.lineTo(238, 224);
+  context.moveTo(274, 224);
+  context.lineTo(302, 224);
+  context.moveTo(224, 314);
+  context.lineTo(288, 314);
+  context.stroke();
+  context.fillStyle = '#9cc9a4';
+  context.font = '22px monospace';
+  context.textAlign = 'center';
+  context.fillText('PLACEHOLDER FACE', 256, 438);
+  return placeholder.toDataURL('image/png');
+}
+
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = url;
+  });
+}
+
+function drawCoverImage(context, image, x, y, width, height) {
+  const imageRatio = image.width / image.height;
+  const boxRatio = width / height;
+  const sourceWidth = imageRatio > boxRatio ? image.height * boxRatio : image.width;
+  const sourceHeight = imageRatio > boxRatio ? image.height : image.width / boxRatio;
+  const sourceX = (image.width - sourceWidth) / 2;
+  const sourceY = (image.height - sourceHeight) / 2;
+  context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+}
+
+function createPixelatedImage(image) {
+  const small = document.createElement('canvas');
+  small.width = 64;
+  small.height = 64;
+  const smallContext = small.getContext('2d');
+  drawCoverImage(smallContext, image, 0, 0, 64, 64);
+
+  const large = document.createElement('canvas');
+  large.width = 512;
+  large.height = 512;
+  const context = large.getContext('2d');
+  context.imageSmoothingEnabled = false;
+  context.fillStyle = '#0b0f0d';
+  context.fillRect(0, 0, 512, 512);
+  context.drawImage(small, 48, 48, 416, 416);
+  context.strokeStyle = '#9cc9a4';
+  context.lineWidth = 12;
+  context.strokeRect(34, 34, 444, 444);
+  context.fillStyle = 'rgba(11, 15, 13, 0.82)';
+  context.fillRect(70, 418, 372, 44);
+  context.fillStyle = '#9cc9a4';
+  context.font = '22px monospace';
+  context.textAlign = 'center';
+  context.fillText('PIXEL FACE ASSET', 256, 448);
+  return large.toDataURL('image/png');
+}
+
+function createNFTStylePreview(image, style) {
+  const output = document.createElement('canvas');
+  output.width = 512;
+  output.height = 512;
+  const context = output.getContext('2d');
+  const gradient = context.createLinearGradient(0, 0, 512, 512);
+  gradient.addColorStop(0, '#9cc9a4');
+  gradient.addColorStop(0.45, '#d7d2a0');
+  gradient.addColorStop(1, '#6551a8');
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, 512, 512);
+  context.fillStyle = 'rgba(11, 15, 13, 0.78)';
+  context.fillRect(34, 34, 444, 444);
+  drawCoverImage(context, image, 62, 74, 388, 330);
+  context.strokeStyle = '#d7d2a0';
+  context.lineWidth = 8;
+  context.strokeRect(54, 66, 404, 348);
+  context.fillStyle = '#d7d2a0';
+  context.fillRect(54, 420, 150, 42);
+  context.fillStyle = '#111412';
+  context.font = '700 24px monospace';
+  context.fillText('RARE', 92, 449);
+  context.fillStyle = '#9cc9a4';
+  context.font = '18px monospace';
+  context.fillText(`LOT ${state.generatedProductId || 'FX-0000'}`, 226, 448);
+  context.fillText(style.collection, 54, 494);
+  return output.toDataURL('image/png');
+}
+
+function createFilteredPreview(image, styleId) {
+  const output = document.createElement('canvas');
+  output.width = 512;
+  output.height = 512;
+  const context = output.getContext('2d');
+  const filters = {
+    jobInterview: 'grayscale(0.65) contrast(1.14) brightness(0.96)',
+    passport: 'grayscale(0.9) contrast(1.08) brightness(1.06)',
+    influencer: 'saturate(1.7) contrast(1.16) brightness(1.05)',
+    luxury: 'sepia(0.28) saturate(1.35) contrast(1.12) brightness(0.94)',
+    algorithm: 'contrast(1.35) saturate(0.8) hue-rotate(42deg)',
+  };
+  context.fillStyle = '#0b0f0d';
+  context.fillRect(0, 0, 512, 512);
+  context.filter = filters[styleId] || 'contrast(1.08)';
+  drawCoverImage(context, image, 54, 54, 404, 404);
+  context.filter = 'none';
+  context.strokeStyle = styleId === 'luxury' ? '#d7d2a0' : '#9cc9a4';
+  context.lineWidth = 5;
+  context.strokeRect(44, 44, 424, 424);
+  context.fillStyle = 'rgba(11, 15, 13, 0.78)';
+  context.fillRect(64, 408, 384, 42);
+  context.fillStyle = styleId === 'luxury' ? '#d7d2a0' : '#9cc9a4';
+  context.font = '18px monospace';
+  context.textAlign = 'center';
+  context.fillText('FICTIONAL FACE PRODUCT', 256, 435);
+  return output.toDataURL('image/png');
+}
+
+function assignFictionalFVU(style) {
+  return style.fvu;
+}
+
+async function generateStyledFace(styleId) {
+  const style = modeData[styleId];
+  const sourceUrl = state.imageUrl || createPlaceholderFace();
+  const image = await loadImage(sourceUrl);
+  if(ROLE_STYLES[styleId])return createRolePortrait(image,styleId);
+  if (styleId === 'pixelAvatar') return createPixelatedImage(image);
+  if (styleId === 'nftCollectible') return createNFTStylePreview(image, style);
+  return createFilteredPreview(image, styleId);
+}
+
+function createGeneratedFaceCard(style, imageUrl) {
+  const article = document.createElement('article');
+  article.className = `generated-face-card generated-face-card--${state.mode}`;
+
+  const image = document.createElement('img');
+  image.src = imageUrl;
+  image.alt = `Generated ${style.label} preview`;
+
+  const content = document.createElement('div');
+  content.className = 'generated-face-card__content';
+
+  const kicker = document.createElement('p');
+  kicker.className = 'terminal-label';
+  kicker.textContent = 'GENERATED FACE PRODUCT';
+
+  const title = document.createElement('h3');
+  title.textContent = style.label;
+
+  const note = document.createElement('p');
+  note.textContent = 'Your face has been transformed into a fictional market asset.';
+
+  const disclaimer = document.createElement('p');
+  disclaimer.className = 'microcopy';
+  disclaimer.textContent = state.mode === 'nftCollectible'
+    ? ''
+    : '';
+
+  const meta = document.createElement('div');
+  meta.className = 'generated-face-meta';
+  meta.innerHTML = `<span>PRODUCT ID</span><strong>${state.generatedProductId}</strong><span>FVU VALUE</span><strong>${state.generatedFvu} FVU</strong>`;
+
+  const actions = document.createElement('div');
+  actions.className = 'room-actions generated-face-actions';
+
+  const valueButton = document.createElement('button');
+  valueButton.className = 'primary-action';
+  valueButton.type = 'button';
+  valueButton.textContent = 'Send to Value Room';
+  valueButton.addEventListener('click', () => continueToRoom('valueRoom'));
+
+  const auctionButton = document.createElement('button');
+  auctionButton.className = 'secondary-action';
+  auctionButton.type = 'button';
+  auctionButton.textContent = 'Send to Auction';
+  auctionButton.addEventListener('click', () => continueToRoom('soldRoom'));
+
+  actions.append(valueButton, auctionButton);
+  content.append(kicker, title, note, disclaimer, meta, actions);
+  article.append(image, content);
+  return article;
 }
 
 async function startCamera() {
@@ -324,6 +661,8 @@ async function startCamera() {
     state.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
     video.srcObject = state.stream;
     video.hidden = false;
+    emptyPreview.hidden = true;
+    facePreview.hidden = true;
     takePhotoButton.hidden = false;
     await video.play();
     cameraMessage.textContent = 'Camera is active locally. Take a still image when ready.';
@@ -340,7 +679,11 @@ function takePhoto() {
   canvas.width = width;
   canvas.height = height;
   const context = canvas.getContext('2d');
+  context.save();
+  context.translate(width,0);
+  context.scale(-1,1);
   context.drawImage(video, 0, 0, width, height);
+  context.restore();
   setImage(canvas.toDataURL('image/png'));
   cameraMessage.textContent = 'Still image captured locally inside this browser session.';
   stopCamera();
@@ -355,22 +698,67 @@ function uploadImage(event) {
   }
   if (state.imageUrl.startsWith('blob:')) URL.revokeObjectURL(state.imageUrl);
   setImage(URL.createObjectURL(file));
-  cameraMessage.textContent = 'Uploaded image is previewed locally. It is not sent to a server.';
+  stopCamera();
+  cameraMessage.textContent = import.meta.env.PUBLIC_ARCHIVE_MODE==='browser'
+    ? 'Your image is ready. It is saved only in this browser on your device.'
+    : 'Your image is ready. It will be saved in this project’s face archive.';
 }
 
-function selectMode(modeKey) {
+async function selectMode(modeKey) {
+  const style = modeData[modeKey];
+  if (!style) return;
+  const token = generationToken + 1;
+  generationToken = token;
   state.mode = modeKey;
-  state.values = { ...modeData[modeKey].values };
+  state.auctionSale=null;
+  updateSaleStamp();
+  if(state.pendingCaptureArchive&&state.imageUrl){
+    state.pendingCaptureArchive=false;
+    recordFace(state.imageUrl).catch(()=>{state.pendingCaptureArchive=true;setStatus('FACE ARCHIVE COULD NOT BE SAVED');});
+  }
+  state.values = createVirtualScores();
+  state.generatedFvu = assignFictionalFVU(style);
+  state.generatedProductId = `FX-${String(Math.floor(1000 + Math.random() * 9000))}`;
+  state.generatedImageUrl = '';
   state.valuesRendered = false;
-  packageNext.disabled = false;
+  packageNext.disabled = true;
+  generatedResult.replaceChildren();
   metadataTags.replaceChildren(
-    ...modeData[modeKey].tags.map((tag) => {
+    ...style.tags.map((tag) => {
       const item = document.createElement('span');
       item.textContent = tag.toUpperCase();
       return item;
     }),
   );
-  setStatus(`${modeData[modeKey].label.toUpperCase()} SELECTED`);
+  setStatus(`${style.label.toUpperCase()} SELECTED`);
+  for (const message of generatedMessages) {
+    if (token !== generationToken) return;
+    generatorStatus.textContent = message;
+    await delay(prefersReducedMotion() ? 20 : 420);
+  }
+  if (token !== generationToken) return;
+  let generatedImage;
+  try {generatedImage=await generateStyledFace(modeKey);}
+  catch {
+    if(token===generationToken)generatorStatus.textContent='Portrait could not be created. Choose a style to retry.';
+    return;
+  }
+  if (token !== generationToken) return;
+  state.generatedImageUrl = generatedImage;
+  corridorController?.setPortrait?.(state.generatedImageUrl);
+  if (packagePreview) {
+    packagePreview.src = state.generatedImageUrl;
+    packagePreview.hidden = false;
+  }
+  if (resultPreview) {
+    resultPreview.src = state.generatedImageUrl;
+    resultPreview.hidden = false;
+  }
+  if (generatorPlaceholder) generatorPlaceholder.hidden = true;
+  generatedResult.replaceChildren(createGeneratedFaceCard(style, state.generatedImageUrl));
+  generatorStatus.textContent = `${style.label.toUpperCase()} READY / ${state.generatedFvu} FVU`;
+  packageNext.disabled = false;
+  setStatus('GENERATED FACE PRODUCT READY');
 }
 
 function animateNumber(output, value) {
@@ -393,60 +781,67 @@ function animateNumber(output, value) {
   requestAnimationFrame(tick);
 }
 
+function ensureVirtualScores() {
+  if (!VIRTUAL_SCORE_METRICS.every(metric=>Number.isFinite(state.values[metric.key]))) state.values=createVirtualScores();
+  return state.values;
+}
+
 function renderValues() {
+  ensureVirtualScores();
   valueGrid.replaceChildren();
-  if (valueComment) valueComment.textContent = 'FACE VALUE IS BEING PRODUCED';
-  Object.entries(state.values).forEach(([label, value]) => {
-    const card = document.createElement('div');
-    card.className = 'value-card';
-
-    const labelElement = document.createElement('label');
-    const inputId = `value-${label.toLowerCase().replaceAll(' ', '-')}`;
-    labelElement.setAttribute('for', inputId);
-    labelElement.textContent = label;
-
-    const output = document.createElement('output');
-    output.setAttribute('for', inputId);
-    output.textContent = '0';
-
-    const tag = document.createElement('span');
-    tag.className = 'score-tag';
-    tag.textContent = 'FICTIONAL INTERFACE SCORE';
-
-    const slider = document.createElement('input');
-    slider.type = 'range';
-    slider.min = '0';
-    slider.max = '100';
-    slider.value = value;
-    slider.id = inputId;
-    slider.setAttribute('aria-label', `${label} fictional interface score`);
-    slider.addEventListener('input', () => {
-      state.values[label] = Number(slider.value);
-      animateNumber(output, Number(slider.value));
-      if (valueComment) valueComment.textContent = valueComments[label] || 'Market confidence adjusted.';
-    });
-
-    card.append(labelElement, output, tag, slider);
-    valueGrid.append(card);
-    animateNumber(output, value);
-  });
+  const portrait=document.querySelector('[data-value-portrait]');
+  const source=['composite','reuse'].includes(state.mode)?state.generatedImageUrl:state.imageUrl||state.generatedImageUrl;
+  portrait.hidden=!source;
+  if(source)portrait.src=source;else portrait.removeAttribute('src');
+  document.querySelector('[data-value-portrait-empty]').hidden=!!source;
+  const heading=document.createElement('h3');
+  heading.className='house-score-heading';
+  heading.textContent='The house standard';
+  const legend=document.createElement('p');
+  legend.className='house-score-legend';
+  legend.textContent='Reference band 65–85 · Scale 0–100';
+  const ledger=document.createElement('dl');
+  ledger.className='house-score-ledger';
+  for (const key of HOUSE_STANDARD_KEYS) {
+    const metric=VIRTUAL_SCORE_METRICS.find(item=>item.key===key);
+    const score=state.values[key];
+    const row=document.createElement('div');
+    row.className='house-score-row';
+    row.dataset.metric=key;
+    const label=document.createElement('dt');
+    label.textContent=metric.label;
+    const detail=document.createElement('dd');
+    const track=document.createElement('span');
+    track.className='house-score-track';
+    track.setAttribute('aria-hidden','true');
+    const band=document.createElement('span');
+    band.className='house-score-band';
+    band.style.left=`${HOUSE_STANDARD_BAND.min}%`;
+    band.style.width=`${HOUSE_STANDARD_BAND.max-HOUSE_STANDARD_BAND.min}%`;
+    const fill=document.createElement('span');
+    fill.className='house-score-fill';
+    fill.style.width=`${score}%`;
+    track.append(band,fill);
+    const value=document.createElement('span');
+    value.className='house-score-number';
+    value.textContent=`${score} / 100`;
+    detail.append(track,value);
+    row.append(label,detail);
+    ledger.append(row);
+  }
+  const disclosure=document.createElement('p');
+  disclosure.className='house-score-disclosure';
+  disclosure.textContent='Fictional scores and standards. No facial analysis is performed.';
+  valueGrid.append(heading,legend,ledger,disclosure);
+  if (fvuValue) fvuValue.textContent = getAverageValue();
 }
 
 function getAverageValue() {
-  const values = Object.keys(state.values).length ? state.values : { 'Trust Index': 0, 'Employability Rating': 0, 'Attention Demand': 0, 'Authority Signal': 0, 'Access Value': 0, 'Resale Potential': 0 };
-  const scores = Object.values(values);
-  return Math.round(scores.reduce((sum, value) => sum + value, 0) / scores.length);
+  return averageVirtualScore(ensureVirtualScores());
 }
 
 function renderAuction() {
-  const values = Object.keys(state.values).length ? state.values : { 'Trust Index': 0, 'Employability Rating': 0, 'Attention Demand': 0, 'Authority Signal': 0, 'Access Value': 0, 'Resale Potential': 0 };
-  const bids = {
-    employer: Math.round(values['Trust Index'] * 0.25 + values['Authority Signal'] * 0.25 + values['Employability Rating'] * 0.5),
-    platform: Math.round(values['Attention Demand'] * 0.52 + values['Resale Potential'] * 0.22 + getAverageValue() * 0.26),
-    verification: Math.round(values['Access Value'] * 0.45 + values['Trust Index'] * 0.32 + values['Authority Signal'] * 0.23),
-    collector: Math.round(values['Resale Potential'] * 0.5 + values['Authority Signal'] * 0.2 + values['Access Value'] * 0.3),
-    advertiser: Math.round(values['Attention Demand'] * 0.48 + values['Trust Index'] * 0.18 + values['Resale Potential'] * 0.34),
-  };
+  const bids = virtualAgentBids(ensureVirtualScores());
 
   Object.entries(bids).forEach(([agent, value]) => {
     const output = document.querySelector(`#bid-${agent}`);
@@ -459,26 +854,22 @@ function renderAuction() {
   auctionMessage.textContent = `${marketLine}: ${winner[0].toUpperCase()} LEADS / ${winner[1]} FVU`;
 }
 
-function updateCosts() {
-  state.hiddenCosts = Array.from(document.querySelectorAll('.cost-fieldset input:checked')).map((input) => input.value);
-  costMessage.textContent = state.hiddenCosts.length ? 'HIDDEN COSTS REGISTERED' : 'AWAITING HIDDEN COST SELECTION';
-  setStatus(costMessage.textContent);
+function updateSaleStamp() {
+  const stamp=document.querySelector('[data-sold-stamp]');
+  if(stamp)stamp.hidden=!(Number.isFinite(state.auctionSale?.price)&&state.auctionSale.price>0&&!resultPreview.hidden);
 }
 
 function renderResult() {
-  const values = Object.keys(state.values).length ? state.values : { 'Trust Index': 0, 'Employability Rating': 0, 'Attention Demand': 0, 'Authority Signal': 0, 'Access Value': 0, 'Resale Potential': 0 };
-  const costs = state.hiddenCosts.length ? state.hiddenCosts : ['No hidden costs selected'];
+  updateSaleStamp();
+  const values = ensureVirtualScores();
   const rows = [
-    ['Selected face product', modeData[state.mode]?.label || 'Unselected'],
-    ['Trust Index', values['Trust Index']],
-    ['Employability Rating', values['Employability Rating']],
-    ['Attention Demand', values['Attention Demand']],
-    ['Authority Signal', values['Authority Signal']],
-    ['Access Value', values['Access Value']],
-    ['Resale Potential', values['Resale Potential']],
-    ['Average face value', `${getAverageValue()} FVU`],
-    ['Hidden costs registered', costs.join(', ')],
-    ['System status', 'IDENTITY ASSET IN DEMAND'],
+    ['Asset', modeData[state.mode]?.label || 'Uncatalogued likeness'],
+    ['Lot record', state.generatedProductId || 'LOT-041'],
+    ['Final price', state.auctionSale ? `${state.auctionSale.price.toLocaleString()} RMB` : 'Not sold'],
+    ['Buyer', 'PRIVATE LICENSING AGENT'],
+    ['Licence', 'DERIVATIVE / COMMERCIAL / TRANSFERABLE'],
+    ['This round’s estimate', `${getAverageValue()} / 100`],
+    ['Archive status', 'TRANSFERRED / FICTIONAL RECORD'],
   ];
 
   resultPanel.replaceChildren(
@@ -498,27 +889,35 @@ function resetExperience() {
   state.activeStation = 0;
   state.lastDoor = 'enterRoom';
   state.imageUrl = '';
+  faceProcessing.reset();faceProcessing.setReference('');
   state.mode = '';
+  state.generatedImageUrl = '';
+  state.generatedProductId = '';
+  state.generatedFvu = 0;
+  state.auctionSale = null;
+  updateSaleStamp();
   state.values = {};
-  state.hiddenCosts = [];
   state.valuesRendered = false;
   uploadInput.value = '';
+  state.pendingCaptureArchive = false;
+  corridorController?.setPortrait?.('');
+  if (corridorController?.isSpatial) corridorController.returnToStation(0);
   facePreview.hidden = true;
   packagePreview.hidden = true;
   resultPreview.hidden = true;
+  if (generatorPlaceholder) generatorPlaceholder.hidden = false;
   emptyPreview.hidden = false;
-  captureNext.disabled = true;
   packageNext.disabled = true;
+  generationToken += 1;
   metadataTags.replaceChildren();
+  generatedResult.replaceChildren();
+  if (generatorStatus) generatorStatus.textContent = 'SELECT A STYLE TO GENERATE';
   valueGrid.replaceChildren();
   resultPanel.replaceChildren();
   document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((input) => {
     input.checked = false;
   });
-  reflectionResponse.hidden = true;
-  cameraMessage.textContent = 'Camera access is optional. Upload remains available if access is unavailable or denied.';
-  if (valueComment) valueComment.textContent = 'FACE VALUE IS BEING PRODUCED';
-  costMessage.textContent = 'AWAITING HIDDEN COST SELECTION';
+  cameraMessage.textContent = 'Dear guest, please upload your own face and await our appraisal.';
   auctionMessage.textContent = 'BIDS WAITING FOR VALUE INPUT';
   setCurrentView('corridor', false);
   setEntranceState(state.entranceState);
@@ -532,10 +931,13 @@ doors.forEach((door) => {
 
 previousDoorButton.addEventListener('click', () => moveStation(-1));
 nextDoorButton.addEventListener('click', () => moveStation(1));
+document.querySelector('[data-journey-button]').addEventListener('click',()=>continueToRoom(document.querySelector('[data-journey-next]').dataset.destination));
+document.querySelectorAll('[data-open-exhibit]').forEach(button=>button.addEventListener('click',()=>corridorController?.openExhibit?.(button.dataset.openExhibit)));
 enterActiveButton.addEventListener('click', enterActiveDoor);
 enterEntranceButton?.addEventListener('click', () => {
   if (corridorController?.isFallback) {
     setEntranceState('inside');
+    setCurrentView('corridor', false);
     return;
   }
   corridorController?.enterEntrance?.(true);
@@ -556,13 +958,32 @@ corridor.addEventListener('wheel', (event) => {
 }, { passive: false });
 
 window.addEventListener('keydown', (event) => {
+  if(event.key==='Escape'&&!document.querySelector('[data-face-inspector]').hidden){document.querySelector('[data-face-inspector]').hidden=true;threeMount.focus({preventScroll:true});event.preventDefault();return;}
+  const editableTarget = event.target.closest('input, textarea, select, [contenteditable="true"]');
+  if (editableTarget && event.key !== 'Escape') return;
+  const nativeControl = event.target.closest('button, summary, a');
+  if (nativeControl && (event.key === 'Enter' || event.key === ' ')) return;
+  // Escape belongs to the browser while full screen is active. Do not also
+  // close the current room or cancel the entrance on that same key press.
+  if (event.key === 'Escape' && document.fullscreenElement === app) return;
   if (event.key === 'Escape' && state.currentView !== 'corridor') {
     event.preventDefault();
     returnToCorridor();
     return;
   }
 
-  if (state.currentView !== 'corridor') return;
+  if (state.currentView !== 'corridor') {
+    if (corridorController?.isSpatial) {
+      const key = event.key.toLowerCase();
+      if (key === 'w' || event.key === 'ArrowUp') { event.preventDefault(); corridorController.moveAlong(1); }
+      if (key === 's' || event.key === 'ArrowDown') { event.preventDefault(); corridorController.moveAlong(-1); }
+      if (key === 'a') { event.preventDefault(); corridorController.moveInRoom(-0.3, 0); }
+      if (key === 'd') { event.preventDefault(); corridorController.moveInRoom(0.3, 0); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); corridorController.look(-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); corridorController.look(1); }
+    }
+    return;
+  }
   const isThreeMode = corridorController && !corridorController.isFallback;
 
   if (event.key === 'Escape' && isThreeMode && !hasEnteredCorridor()) {
@@ -628,27 +1049,29 @@ document.querySelectorAll('[data-return-corridor]').forEach((button) => {
 });
 
 document.querySelectorAll('[data-continue]').forEach((button) => {
-  button.addEventListener('click', () => continueToRoom(button.dataset.continue));
+  button.addEventListener('click', () => {
+    if (!corridorController?.isSpatial && state.currentView === 'enterRoom' && button.dataset.continue === 'submitRoom') {
+      setActiveStation(getStationIndex('submitRoom'), false);
+      showRoom('submitRoom');
+    } else continueToRoom(button.dataset.continue);
+  });
 });
+
+document.addEventListener('auction-sale-record',event=>{state.auctionSale=event.detail;updateSaleStamp();recordSale(event.detail.price,event.detail.bidder).catch(()=>setStatus('SALE ARCHIVE COULD NOT BE SAVED'));});
+document.querySelector('[data-face-inspector-close]').addEventListener('click',()=>document.querySelector('[data-face-inspector]').hidden=true);
+document.querySelector('[data-final-return]').addEventListener('click',returnToCorridor);
+document.querySelector('[data-auction-guide]').addEventListener('wheel',event=>{event.preventDefault();event.stopPropagation();},{passive:false});
+document.querySelector('[data-auction-next]').addEventListener('click',()=>continueToRoom('soldRoom'));
+roomExhibitButton.addEventListener('click', () => corridorController?.interactWithRoom());
 
 startCameraButton.addEventListener('click', startCamera);
 takePhotoButton.addEventListener('click', takePhoto);
 uploadInput.addEventListener('change', uploadImage);
+document.querySelector('#upload-image-button').addEventListener('click', () => uploadInput.click());
 startAgainButton.addEventListener('click', resetExperience);
 
 document.querySelectorAll('input[name="package-mode"]').forEach((input) => {
   input.addEventListener('change', () => selectMode(input.value));
-});
-
-document.querySelectorAll('.cost-fieldset input').forEach((input) => {
-  input.addEventListener('change', updateCosts);
-});
-
-document.querySelectorAll('input[name="reflection"]').forEach((input) => {
-  input.addEventListener('change', () => {
-    reflectionResponse.hidden = false;
-    setStatus(`CONTROL ANSWER REGISTERED: ${input.value.toUpperCase()}`);
-  });
 });
 
 corridorController = initThreeCorridor({
@@ -657,9 +1080,23 @@ corridorController = initThreeCorridor({
   initialStation: 0,
   onStationChange: (index) => setActiveStation(index, false, 'three'),
   onEnterDoor: showRoom,
+  onFaceCaptureComplete: ({imageUrl})=>{
+    if(imageUrl)setImage(imageUrl,{archive:false});
+  },
   onEntranceChange: setEntranceState,
+  onReturnRoom: (index) => {
+    setCurrentView('corridor', false);
+    setActiveStation(index, false, 'three');
+    threeMount.focus({ preventScroll: true });
+  },
+  onRoomAction: active => {
+    roomExhibitButton.setAttribute('aria-pressed', String(active));
+    if(state.currentView==='auctionRoom'){roomExhibitButton.textContent=active?'RESUME FLOATING PHOTOS':'PAUSE FLOATING PHOTOS';roomFeedback.textContent='Drag to rotate · Scroll to zoom · Click a photo for details · Esc to return';return;}
+    roomFeedback.textContent = active ? 'The artwork is active. Click it again to quiet the motion.' : 'The artwork has returned to rest.';
+  },
   reducedMotion: prefersReducedMotion(),
 });
+
 
 if (corridorController?.isFallback) {
   app.classList.add('is-webgl-fallback');
@@ -673,3 +1110,4 @@ if (corridorController?.isFallback) {
 setActiveStation(0, false);
 setCurrentView('corridor', false);
 setEntranceState(corridorController?.getEntranceState?.() || state.entranceState);
+import { initSceneAudio } from './sceneAudio.js';

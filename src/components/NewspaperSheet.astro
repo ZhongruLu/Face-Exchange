@@ -1,0 +1,19 @@
+---
+import NewsGraphic from './NewsGraphic.astro';
+const {item,compact=false}=Astro.props;
+---
+<div class:list={['news-sheet',{'news-sheet--compact':compact}]}>
+  <header class="news-masthead"><span class="research-en">THE FACE LEDGER</span><span class="research-zh">面孔简报</span></header>
+  <div class="news-edition"><span>{item.id}</span><span class="research-en">{item.kind}</span><span class="research-zh">{item.zhKind}</span><time datetime={item.published}>{item.published}</time></div>
+  <h3 class="news-headline research-en">{item.headline}</h3><h3 class="news-headline research-zh">{item.zhHeadline}</h3>
+  <p class="news-deck research-en">{item.deck}</p><p class="news-deck research-zh">{item.zhDeck}</p>
+  <div class="news-credit">{item.publisher}</div>
+  <div class="news-feature">
+    <NewsGraphic type={item.graphic} compact={compact} />
+    <aside class="news-fact"><strong>{item.fact}</strong><span class="research-en">{item.factLabel}</span><span class="research-zh">{item.zhFactLabel}</span></aside>
+  </div>
+  <div class="news-columns">
+    {item.sections.map(section=><section><h4 class="research-en">{section.heading}</h4><h4 class="research-zh">{section.zhHeading}</h4><p class="research-en">{section.text}</p><p class="research-zh">{section.zhText}</p></section>)}
+  </div>
+  <footer class="news-footer"><span class="research-en">{compact?'SELECT TO READ':'FACE EXCHANGE · EDITORIAL DIGEST'}</span><span class="research-zh">{compact?'点击阅读':'FACE EXCHANGE · 项目研究摘要'}</span><span>{item.id}</span></footer>
+</div>

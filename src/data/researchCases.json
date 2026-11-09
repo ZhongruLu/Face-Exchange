@@ -1,0 +1,77 @@
+[
+  {
+    "id": "FX-R01",
+    "stations": [
+      0,
+      1,
+      2
+    ],
+    "kind": "Documented case",
+    "published": "2026-03-20",
+    "checked": "2026-10-31",
+    "publisher": "Beijing Internet Court / 北京互联网法院",
+    "url": "https://www.thepaper.cn/newsDetail_forward_32799628",
+    "title": "An actor appears in a short drama",
+    "zhTitle": "未参演的演员出现在短剧中",
+    "summary": "The court reported an AI face-swap dispute in a Chinese short drama. It found both the producer and distributor liable. A copyright licence for the drama did not clear the actor’s likeness rights.",
+    "zhSummary": "北京互联网法院公布了一起中国短剧 AI 换脸纠纷。法院认定制作方和播出方侵害肖像权。播出方取得了短剧著作权授权，但这不等于取得演员的肖像许可。",
+    "question": "Who approved this new role?",
+    "zhQuestion": "这个新角色经过谁的同意？"
+  },
+  {
+    "id": "FX-R02",
+    "stations": [
+      3,
+      4,
+      5
+    ],
+    "kind": "Legal context",
+    "published": "2020-05-28",
+    "checked": "2026-10-31",
+    "publisher": "Civil Code, Articles 1021–1022 / 民法典第1021–1022条",
+    "url": "https://www.court.gov.cn/zixun/xiangqing/233181.html",
+    "title": "Permission has a scope",
+    "zhTitle": "授权有使用边界",
+    "summary": "China’s Civil Code addresses interpretation and termination of likeness licences. An unclear term can be terminated with reasonable notice. A fixed term may also be terminated for justified reasons, subject to notice and possible compensation. The auction contract here is fictional.",
+    "zhSummary": "《民法典》规定了肖像许可条款的解释和解除。期限未约定或不明确时，可提前合理通知后解除。期限明确时，有正当理由也可解除，但涉及通知和可能的赔偿。本项目中的拍卖合同是虚构的。",
+    "question": "Which uses would you permit, and for how long?",
+    "zhQuestion": "你允许哪些用途？允许多久？"
+  },
+  {
+    "id": "FX-R03",
+    "stations": [
+      6,
+      7,
+      8
+    ],
+    "kind": "Documented case",
+    "published": "2024-07-31",
+    "checked": "2026-10-31",
+    "publisher": "China Court Network via Zhongshan Court / 中国法院网、中山法院网",
+    "url": "https://www.zsfy.gov.cn/article/view/cateid/7365/id/48751.html",
+    "title": "A portrait becomes a reusable template",
+    "zhTitle": "肖像成为可重复使用的模板",
+    "summary": "A blogger’s videos were used without permission as face-swap templates. The report records a first-instance infringement finding and a later appeal settlement. This was a short-video case, not a short-drama sale or a voluntary likeness licence.",
+    "zhSummary": "博主赵某的视频未经同意被用作换脸模板。报道记载了一审侵权判决和后续二审调解。这是短视频再利用案例，不是短剧交易，也不是自愿出售肖像授权的案例。",
+    "question": "Can you control copies made after permission ends?",
+    "zhQuestion": "授权结束后，已生成的副本还能被控制吗？"
+  },
+  {
+    "id": "FX-R04",
+    "stations": [
+      0,
+      1
+    ],
+    "kind": "Documented case",
+    "published": "2025-04-21",
+    "checked": "2026-10-31",
+    "publisher": "Supreme People’s Court / 最高人民法院",
+    "url": "https://www.court.gov.cn/zixun/xiangqing/462881.html",
+    "title": "Changing a face does not clear video rights",
+    "zhTitle": "换一张脸，仍涉及原视频权利",
+    "summary": "The Supreme People’s Court included an AI face-swap copyright dispute in its 2024 typical intellectual property cases. A platform reused original videos as face-swap material. The court found infringement of the creator’s right of communication through information networks. This concerns video copyright, not a voluntary likeness sale.",
+    "zhSummary": "最高人民法院公布的2024年知识产权典型案例包括一起 AI 换脸著作权纠纷。平台将他人原始视频用于换脸服务，法院认定其侵害创作者的作品信息网络传播权。这涉及视频著作权，不是自愿出售肖像的案例。",
+    "question": "Who owns the footage around a replaced face?",
+    "zhQuestion": "脸被替换后，原来的影像由谁授权？"
+  }
+]
